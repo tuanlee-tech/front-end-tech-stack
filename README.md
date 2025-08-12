@@ -1,127 +1,127 @@
-# Hệ Thống CRM Học Tập (Uber-Like Platform)
+📒 SỔ TAY FRONTEND – LỘ TRÌNH TỪ JUNIOR → SENIOR → TECH LEAD
 
-![Banner](https://via.placeholder.com/1280x200?text=CRM+System+with+Micro+Frontends) <!-- Thay bằng hình ảnh thực nếu có -->
+1. Kiến thức cốt lõi
 
-## Giới Thiệu
+Chủ đề	Mô tả ngắn	Junior	Mid/Senior	Tech Lead
 
-Dự án này là đỉnh cao của chuỗi 5 dự án học tập nhằm hệ thống hóa kiến thức frontend developer, tập trung vào React/Next.js ecosystem. Nó mô phỏng một hệ thống CRM (Customer Relationship Management) giống như nền tảng đặt xe của Uber, nơi quản lý chuyến đi, nhiệm vụ, dữ liệu lớn, chat real-time, và blog giới thiệu. Các module từ 4 dự án trước được hợp nhất thành Micro Frontends trong một Monorepo, giúp học sâu về kiến trúc scale lớn, tối ưu hiệu suất, và các design patterns thực tế.
+HTML5 / CSS3 / JavaScript ES6+	Nắm vững cú pháp, API chuẩn, tối ưu hiệu suất, accessibility cơ bản.	Biết sử dụng thành thạo.	Hiểu sâu về DOM, Event loop, Scope, Closure, Hoisting, Memory.	Phân tích, review code chuẩn WCAG, đưa ra coding convention cho team.
+React 18+	Master hooks, context, lifecycle, concurrent rendering.	Biết dùng hooks, context.	Hiểu React Fiber, Suspense, batching, tối ưu re-render.	Thiết kế kiến trúc scalable, viết reusable component library.
+Next.js 14+ (App Router)	SSR, SSG, ISR, Middleware, API Routes.	Biết render type và use cases.	Hiểu cơ chế streaming, caching, edge functions.	Thiết kế kiến trúc SSR+CSR hybrid cho hệ thống lớn.
+TypeScript 5+	Kiểu dữ liệu, Generics, Utility Types, Type Narrowing.	Biết định nghĩa type cơ bản.	Hiểu conditional types, infer, mapped types.	Thiết kế type system cho cả project và libs dùng chung.
 
-Dự án được hoàn thành vào ngày 12/08/2025, dựa trên lộ trình học 2025 (từ roadmap.sh và các nguồn tương tự). Mục tiêu: Không chỉ code mà còn rèn tư duy Senior/Tech Lead, như quản lý technical debt và mentoring.
 
-### Mục Tiêu Học Tập Đạt Được
-- **Kiến Thức Cốt Lõi**: Master React thuần, Next.js (App Router, SSR/SSG/ISR), TypeScript.
-- **Quản Lý Trạng Thái**: Redux Toolkit, Zustand, TanStack Query, Redux Saga/Thunk.
-- **Hiệu Suất & UI**: TanStack Table/Virtual, Web Worker, PWA, Tailwind, Ant Design/MUI.
-- **Bảo Mật & Form**: Next-Auth v5, React Hook Form, Zod.
-- **Real-time & Routing**: WebSocket (Socket.io), TanStack Router.
-- **Kiến Trúc**: Monorepo (Nx/Turborepo), Micro Frontends, Module Federation.
-- **Utilities & Patterns**: Axios, RxJS, GraphQL (Apollo), Design Patterns (Composition, Observer, Facade, v.v.).
-- **Testing & Deployment**: Jest/RTL/Cypress, Vercel/Netlify, Lighthouse/Sentry.
-- **Nâng Cao**: Accessibility (ARIA), i18n, DevOps (CI/CD), tư duy phản biện.
 
-Dự án chứng minh bạn đã đạt ~75% lộ trình frontend (từ Beginner đến Advanced), hướng tới Senior với kỹ năng mềm.
+---
 
-## Tech Stack
+2. Quản lý trạng thái
 
-Dựa trên sổ tay tech stack cập nhật (10/10), các công nghệ được chọn sát với thực tiễn big tech (Meta, Netflix, Amazon, Uber, Shopify):
+Chủ đề	Mô tả	Junior	Mid/Senior	Tech Lead
 
-- **Framework & Nền Tảng**: React 18+, Next.js 14+ (App Router), TypeScript 5+.
-- **Quản Lý Trạng Thái**: Redux Toolkit, Zustand, TanStack Query v9, Redux Saga/Thunk.
-- **UI & Hiệu Suất**: Tailwind CSS, Ant Design/MUI, TanStack Table/Virtual, Web Worker, PWA (Service Worker).
-- **Form & Bảo Mật**: React Hook Form, Zod, Next-Auth v5.
-- **Routing & Real-time**: TanStack Router, WebSocket (Socket.io).
-- **Utilities**: Axios, RxJS, GraphQL (Apollo Client), Next.js Middleware.
-- **Design Patterns**: Component Composition, Custom Hooks, Container/Presenter, Singleton/Provider, Facade/Proxy, Strategy, Observer, Compound Components, Render Props, HOC.
-- **Testing**: Jest/Vitest, React Testing Library, Cypress.
-- **Deployment & Monitoring**: Vercel/Netlify, Docker (cho CI/CD), Lighthouse, Sentry.
-- **Kiến Trúc**: Monorepo (Nx), Micro Frontends, Module Federation (Webpack).
-- **Khác**: Accessibility (react-aria, i18next), GraphQL cho data fetching.
+Redux Toolkit	State management chuẩn industry.	Biết createSlice, thunk.	Hiểu middleware, entity adapter, code splitting store.	Thiết kế store structure multi-module, tối ưu performance.
+Zustand	State nhẹ, không boilerplate.	Biết create store.	Hiểu selector optimization.	Áp dụng cho microfrontend + concurrent UI.
+TanStack Query	Data fetching, caching, sync.	Biết query/mutation cơ bản.	Hiểu staleTime, cacheTime, optimistic updates.	Thiết kế global data layer kết hợp SSR/CSR.
+Redux Saga / Thunk	Side effects handling.	Biết async call.	Hiểu takeLatest, debounce, retry pattern.	Áp dụng cho luồng nghiệp vụ phức tạp.
 
-Usecase thực tế: Giống Uber dashboard (dữ liệu chuyến đi), Netflix chat (real-time), Amazon seller panel (Micro FE).
 
-## Cài Đặt
 
-Yêu cầu: Node.js 18+, npm/yarn/pnpm.
+---
 
-1. Clone repository:
-   ```
-   git clone https://github.com/your-username/crm-learning-system.git
-   cd crm-learning-system
-   ```
+3. UI & Hiệu suất
 
-2. Cài đặt dependencies (sử dụng Monorepo với Nx):
-   ```
-   npm install
-   # Hoặc yarn install / pnpm install
-   ```
+Chủ đề	Mô tả	Junior	Mid/Senior	Tech Lead
 
-3. Cấu hình environment (tạo `.env.local` từ `.env.example`):
-   - Thêm API keys cho Next-Auth, WebSocket server, v.v.
-   - Ví dụ: `NEXTAUTH_SECRET=your-secret`, `DATABASE_URL=your-db-url`.
+Tailwind / MUI / AntD	UI lib + utility-first CSS.	Biết dùng components.	Tối ưu theme, custom component.	Xây design system riêng, token hóa style.
+TanStack Table/Virtual	Render bảng lớn nhanh.	Biết setup bảng.	Hiểu virtualization, column resizing, infinite scroll.	Tối ưu UX bảng real-time hàng nghìn row.
+Web Worker / PWA	Xử lý async, offline.	Biết tạo worker.	Hiểu transfer data, service worker cache.	Thiết kế PWA chiến lược caching và push notification.
 
-4. Chạy dev server:
-   ```
-   npm run dev
-   # Hoặc nx serve (nếu dùng Nx)
-   ```
-   Truy cập tại `http://localhost:3000`.
 
-5. Build và deploy:
-   ```
-   npm run build
-   npm run start
-   ```
-   Deploy lên Vercel: Kết nối GitHub repo và auto-deploy.
 
-## Sử Dụng
+---
 
-- **Module Blog/Portfolio**: Truy cập `/blog` – Hiển thị nội dung giới thiệu (từ Dự án 1).
-- **Module Quản Lý Nhiệm Vụ**: `/tasks` – Tạo/xóa tasks liên quan chuyến đi (Dự án 2).
-- **Module Dữ Liệu Lớn**: `/dashboard` – Xem bảng dữ liệu lớn với virtualization (Dự án 3).
-- **Module Chat Real-time**: `/chat` – Giao tiếp giữa user/driver (Dự án 4).
-- **CRM Toàn Bộ**: Trang chính `/` – Hợp nhất tất cả qua Micro FE, với auth và routing nested.
+4. Form & Bảo mật
 
-Ví dụ sử dụng: Đăng nhập qua Next-Auth, tạo task, xem data lớn, chat real-time – tất cả liên kết (ví dụ: task trigger notification chat).
+Chủ đề	Mô tả	Junior	Mid/Senior	Tech Lead
 
-### Demo
-- Deployed tại: [Vercel Demo Link](https://crm-learning-system.vercel.app) (thay bằng link thực).
-- Video walkthrough: [YouTube Demo](https://youtube.com/your-video) (tùy chọn).
+React Hook Form + Zod	Form validation.	Biết setup form.	Hiểu schema-driven form, performance.	Thiết kế form engine reusable.
+Next-Auth v5	Auth SSR/CSR.	Biết login cơ bản.	Hiểu session, JWT, provider OAuth.	Thiết kế multi-tenant auth, RBAC/ABAC.
 
-## Kiến Trúc Dự Án
 
-- **Monorepo Structure** (sử dụng Nx/Turborepo):
-  ```
-  ├── apps/
-  │   ├── crm-host/       # App chính (Next.js), load remotes
-  │   ├── blog-remote/    # Dự án 1: Module Blog
-  │   ├── tasks-remote/   # Dự án 2: Quản Lý Nhiệm Vụ
-  │   ├── data-remote/    # Dự án 3: Dữ Liệu Lớn
-  │   └── chat-remote/    # Dự án 4: Chat Real-time
-  ├── packages/
-  │   └── shared-ui/      # Shared components/patterns (Singleton, Facade)
-  ├── nx.json             # Config Monorepo
-  └── package.json
-  ```
 
-- **Micro Frontends**: Sử dụng Module Federation – host load remotes dynamically tại runtime, giảm bundle size và cho phép deploy riêng (giống Amazon).
-- **Data Flow**: GraphQL/RTK Query cho server state, WebSocket cho real-time updates.
-- **Performance**: Virtualization cho data lớn, ISR cho static pages, Web Vitals đo lường (LCP <2s, CLS=0).
-- **Security**: Next-Auth với JWT, Zod validation, Middleware cho rate limiting.
+---
 
-Technical Debt: Đã refactor để tránh duplication, nhưng có thể cải thiện bằng AI integration (TensorFlow.js) trong tương lai.
+5. Routing & Real-time
 
-## Đóng Góp
+Chủ đề	Mô tả	Junior	Mid/Senior	Tech Lead
 
-- Fork repo và tạo PR.
-- Issue: Báo bug hoặc gợi ý cải thiện (ví dụ: Thêm AI cho predictive analytics).
-- Code style: ESLint + Prettier.
+TanStack Router	Router type-safe.	Biết route cơ bản.	Hiểu lazy loading, nested route.	Thiết kế routing strategy cho microfrontend.
+WebSocket / Socket.io	Real-time.	Biết emit/listen.	Hiểu reconnection, room, namespace.	Thiết kế scalable real-time cho nhiều service.
 
-## License
 
-MIT License. Xem [LICENSE](LICENSE) để biết chi tiết.
 
-## Tác Giả & Liên Hệ
+---
 
-- Tác giả: [Your Name] – Frontend Learner hướng tới Senior.
-- Email: your.email@example.com
-- GitHub: [your-username](https://github.com/your-username)
+6. Utilities & Design Patterns
+
+Axios, RxJS, GraphQL (Apollo) — cần hiểu caching, retry, cancel request.
+
+Patterns: Composition, Custom Hooks, Container/Presenter, Singleton, Provider, Facade, Proxy, Strategy, Observer, Compound Components, Render Props, HOC.
+
+
+
+---
+
+7. Testing & Deployment
+
+Chủ đề	Junior	Mid/Senior	Tech Lead
+
+Testing	Biết viết test cơ bản với RTL.	Hiểu mock, snapshot, e2e với Cypress.	Thiết kế test strategy, coverage 80%+.
+Deployment	Deploy lên Vercel.	CI/CD với GitHub Actions.	Thiết kế pipeline staging → prod + monitoring Sentry, Lighthouse.
+
+
+
+---
+
+8. Kiến trúc
+
+Monorepo (Nx/Turborepo) — quản lý nhiều package, chia sẻ code.
+
+Micro Frontends — Module Federation, chia nhỏ ứng dụng.
+
+Code Splitting, Lazy Loading — tối ưu performance.
+
+
+
+---
+
+9. DSA cho Frontend (quan trọng nếu muốn lên Tech Lead)
+
+Nhóm	Mục tiêu	Lý do cần
+
+Mảng & Chuỗi	Two Sum, Reverse String, Sliding Window.	Thường gặp khi xử lý UI/logic.
+Hash Map / Set	LRU Cache, Frequency Counter.	Tối ưu tìm kiếm & render.
+Stack / Queue	Undo/Redo, BFS/DFS.	Tạo tính năng UI phức tạp.
+Tree / Graph	Menu đa cấp, DOM traversal.	Hiểu cấu trúc dữ liệu UI.
+Sorting / Searching	QuickSort, Binary Search.	Tối ưu performance table, filter.
+Dynamic Programming	Memoization, Tabulation.	Tối ưu tính toán phức tạp.
+
+
+
+---
+
+10. Checklist tự đánh giá
+
+Level	Junior → Mid	Mid → Senior	Senior → Tech Lead
+
+Code	Nắm vững cú pháp, component cơ bản.	Tối ưu performance, reusable.	Thiết kế kiến trúc, code convention cho team.
+Kiến thức core	Hiểu React, JS cơ bản.	Hiểu sâu Next.js, TS.	Master state, architecture patterns.
+DSA	Biết giải problem cơ bản.	Thành thạo array, hash, tree.	Áp dụng DSA vào kiến trúc & tối ưu UI.
+Teamwork	Làm theo task.	Review code, mentoring.	Dẫn dắt team, thiết kế roadmap kỹ thuật.
+Quản lý	—	—	Quản lý chất lượng, performance toàn hệ thống.
+
+
+
+---
+
+Nếu muốn tôi có thể tích hợp checklist này thành file Excel kèm điểm tự chấm để bạn biết mình đang ở đâu trong hành trình lên Tech Lead.
+Bạn có muốn tôi làm bản đó ngay bây giờ không?
+

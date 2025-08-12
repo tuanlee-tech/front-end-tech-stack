@@ -1,109 +1,144 @@
-# 📒 SỔ TAY FRONTEND – LỘ TRÌNH TỪ JUNIOR → SENIOR → TECH LEAD
+# 🌐 Frontend Tech Stack 2025
 
-## 🎯 Mục Tiêu Học Tập
-- **Kiến Thức Cốt Lõi**: Master React thuần, Next.js (App Router, SSR/SSG/ISR), TypeScript.
-- **Quản Lý Trạng Thái**: Redux Toolkit, Zustand, TanStack Query, Redux Saga/Thunk.
-- **Hiệu Suất & UI**: TanStack Table/Virtual, Web Worker, PWA, Tailwind, Ant Design/MUI.
-- **Bảo Mật & Form**: Next-Auth v5, React Hook Form, Zod.
-- **Real-time & Routing**: WebSocket (Socket.io), TanStack Router.
-- **Kiến Trúc**: Monorepo (Nx/Turborepo), Micro Frontends, Module Federation.
-- **Utilities & Patterns**: Axios, RxJS, GraphQL (Apollo), Design Patterns.
-- **Testing & Deployment**: Jest/RTL/Cypress, Vercel/Netlify, Lighthouse/Sentry.
-- **Nâng Cao**: Accessibility (ARIA), i18n, DevOps (CI/CD), tư duy phản biện.
+<p align="center">
+  <img src="https://skillicons.dev/icons?i=react,nextjs,typescript,redux,tailwind,materialui,graphql,docker,vercel" />
+</p>
 
----
-
-## 1. Kiến Thức Cốt Lõi
-
-| Chủ đề | Mô tả ngắn | Junior | Mid/Senior | Tech Lead |
-|--------|-----------|--------|------------|-----------|
-| **HTML5 / CSS3 / JavaScript ES6+** | Nắm vững cú pháp, API chuẩn, tối ưu hiệu suất, accessibility cơ bản. | Biết sử dụng thành thạo. | Hiểu sâu về DOM, Event loop, Scope, Closure, Hoisting, Memory. | Phân tích, review code chuẩn WCAG, đưa ra coding convention cho team. |
-| **React 18+** | Master hooks, context, lifecycle, concurrent rendering. | Biết dùng hooks, context. | Hiểu React Fiber, Suspense, batching, tối ưu re-render. | Thiết kế kiến trúc scalable, viết reusable component library. |
-| **Next.js 14+ (App Router)** | SSR, SSG, ISR, Middleware, API Routes. | Biết render type và use cases. | Hiểu cơ chế streaming, caching, edge functions. | Thiết kế kiến trúc SSR+CSR hybrid cho hệ thống lớn. |
-| **TypeScript 5+** | Kiểu dữ liệu, Generics, Utility Types, Type Narrowing. | Biết định nghĩa type cơ bản. | Hiểu conditional types, infer, mapped types. | Thiết kế type system cho cả project và libs dùng chung. |
-
----
-
-## 2. Quản Lý Trạng Thái
-
-| Chủ đề | Mô tả | Junior | Mid/Senior | Tech Lead |
-|--------|-------|--------|------------|-----------|
-| **Redux Toolkit** | State management chuẩn industry. | Biết createSlice, thunk. | Hiểu middleware, entity adapter, code splitting store. | Thiết kế store structure multi-module, tối ưu performance. |
-| **Zustand** | State nhẹ, không boilerplate. | Biết create store. | Hiểu selector optimization. | Áp dụng cho microfrontend + concurrent UI. |
-| **TanStack Query** | Data fetching, caching, sync. | Biết query/mutation cơ bản. | Hiểu staleTime, cacheTime, optimistic updates. | Thiết kế global data layer kết hợp SSR/CSR. |
-| **Redux Saga / Thunk** | Side effects handling. | Biết async call. | Hiểu takeLatest, debounce, retry pattern. | Áp dụng cho luồng nghiệp vụ phức tạp. |
+<p align="center">
+  <a href="https://react.dev" target="_blank">
+    <img src="https://img.shields.io/badge/React-18+-61DAFB?style=flat&logo=react&logoColor=white" />
+  </a>
+  <a href="https://nextjs.org" target="_blank">
+    <img src="https://img.shields.io/badge/Next.js-14+-000000?style=flat&logo=next.js&logoColor=white" />
+  </a>
+  <a href="https://www.typescriptlang.org/" target="_blank">
+    <img src="https://img.shields.io/badge/TypeScript-5+-3178C6?style=flat&logo=typescript&logoColor=white" />
+  </a>
+  <a href="https://tailwindcss.com/" target="_blank">
+    <img src="https://img.shields.io/badge/Tailwind%20CSS-3+-06B6D4?style=flat&logo=tailwindcss&logoColor=white" />
+  </a>
+  <a href="https://redux-toolkit.js.org/" target="_blank">
+    <img src="https://img.shields.io/badge/Redux%20Toolkit-%20purple?style=flat&logo=redux&logoColor=white" />
+  </a>
+</p>
 
 ---
 
-## 3. UI & Hiệu Suất
-
-| Chủ đề | Mô tả | Junior | Mid/Senior | Tech Lead |
-|--------|-------|--------|------------|-----------|
-| **Tailwind / MUI / AntD** | UI lib + utility-first CSS. | Biết dùng components. | Tối ưu theme, custom component. | Xây design system riêng, token hóa style. |
-| **TanStack Table/Virtual** | Render bảng lớn nhanh. | Biết setup bảng. | Hiểu virtualization, column resizing, infinite scroll. | Tối ưu UX bảng real-time hàng nghìn row. |
-| **Web Worker / PWA** | Xử lý async, offline. | Biết tạo worker. | Hiểu transfer data, service worker cache. | Thiết kế PWA chiến lược caching và push notification. |
-
----
-
-## 4. Form & Bảo Mật
-
-| Chủ đề | Mô tả | Junior | Mid/Senior | Tech Lead |
-|--------|-------|--------|------------|-----------|
-| **React Hook Form + Zod** | Form validation. | Biết setup form. | Hiểu schema-driven form, performance. | Thiết kế form engine reusable. |
-| **Next-Auth v5** | Auth SSR/CSR. | Biết login cơ bản. | Hiểu session, JWT, provider OAuth. | Thiết kế multi-tenant auth, RBAC/ABAC. |
+## 📑 Mục lục
+- [🚀 Framework & Nền tảng](#-framework--nền-tảng)
+- [📦 Quản lý trạng thái](#-quản-lý-trạng-thái)
+- [🎨 UI & Hiệu suất](#-ui--hiệu-suất)
+- [🛡️ Form & Bảo mật](#️-form--bảo-mật)
+- [🔗 Routing & Real-time](#-routing--real-time)
+- [🛠️ Utilities](#️-utilities)
+- [📐 Design Patterns](#-design-patterns)
+- [🧪 Testing](#-testing)
+- [☁️ Deployment & Monitoring](#️-deployment--monitoring)
+- [🏗️ Kiến trúc](#️-kiến-trúc)
+- [♿ Khác](#-khác)
 
 ---
 
-## 5. Routing & Real-time
-
-| Chủ đề | Mô tả | Junior | Mid/Senior | Tech Lead |
-|--------|-------|--------|------------|-----------|
-| **TanStack Router** | Router type-safe. | Biết route cơ bản. | Hiểu lazy loading, nested route. | Thiết kế routing strategy cho microfrontend. |
-| **WebSocket / Socket.io** | Real-time. | Biết emit/listen. | Hiểu reconnection, room, namespace. | Thiết kế scalable real-time cho nhiều service. |
-
----
-
-## 6. Utilities & Design Patterns
-- **Axios**, **RxJS**, **GraphQL (Apollo)** — cần hiểu caching, retry, cancel request.
-- **Patterns**: Composition, Custom Hooks, Container/Presenter, Singleton, Provider, Facade, Proxy, Strategy, Observer, Compound Components, Render Props, HOC.
+## 🚀 Framework & Nền tảng
+| Công nghệ | Mô tả |
+|-----------|-------|
+| ![React](https://skillicons.dev/icons?i=react) **React 18+** | Thư viện UI mạnh mẽ, component-based, tối ưu Virtual DOM. |
+| ![Next.js](https://skillicons.dev/icons?i=nextjs) **Next.js 14+ (App Router)** | Hỗ trợ SSR, SSG, ISR, middleware, routing mạnh mẽ. |
+| ![TypeScript](https://skillicons.dev/icons?i=typescript) **TypeScript 5+** | Superset của JavaScript, hỗ trợ static type-checking. |
 
 ---
 
-## 7. Testing & Deployment
-
-| Chủ đề | Junior | Mid/Senior | Tech Lead |
-|--------|--------|------------|-----------|
-| **Testing** | Biết viết test cơ bản với RTL. | Hiểu mock, snapshot, e2e với Cypress. | Thiết kế test strategy, coverage 80%+. |
-| **Deployment** | Deploy lên Vercel. | CI/CD với GitHub Actions. | Thiết kế pipeline staging → prod + monitoring Sentry, Lighthouse. |
-
----
-
-## 8. Kiến Trúc
-- **Monorepo** (Nx/Turborepo) — quản lý nhiều package, chia sẻ code.
-- **Micro Frontends** — Module Federation, chia nhỏ ứng dụng.
-- **Code Splitting, Lazy Loading** — tối ưu performance.
+## 📦 Quản lý trạng thái
+| Công nghệ | Mô tả |
+|-----------|-------|
+| ![Redux Toolkit](https://skillicons.dev/icons?i=redux) **Redux Toolkit** | Chuẩn chính thức cho Redux, tối ưu code boilerplate. |
+| **Zustand** | State management nhẹ, không boilerplate, hooks-based. |
+| **TanStack Query v9** | Data fetching, caching, sync state mạnh mẽ. |
+| **Redux Saga / Thunk** | Middleware xử lý side effects trong Redux. |
 
 ---
 
-## 9. DSA Cho Frontend
-
-| Nhóm | Mục tiêu | Lý do cần |
-|------|----------|-----------|
-| **Mảng & Chuỗi** | Two Sum, Reverse String, Sliding Window. | Thường gặp khi xử lý UI/logic. |
-| **Hash Map / Set** | LRU Cache, Frequency Counter. | Tối ưu tìm kiếm & render. |
-| **Stack / Queue** | Undo/Redo, BFS/DFS. | Tạo tính năng UI phức tạp. |
-| **Tree / Graph** | Menu đa cấp, DOM traversal. | Hiểu cấu trúc dữ liệu UI. |
-| **Sorting / Searching** | QuickSort, Binary Search. | Tối ưu performance table, filter. |
-| **Dynamic Programming** | Memoization, Tabulation. | Tối ưu tính toán phức tạp. |
+## 🎨 UI & Hiệu suất
+| Công nghệ | Mô tả |
+|-----------|-------|
+| ![Tailwind](https://skillicons.dev/icons?i=tailwind) **Tailwind CSS** | Utility-first CSS framework, hỗ trợ responsive và dark mode. |
+| **Ant Design / MUI** | UI component library chuyên nghiệp, dễ tùy biến. |
+| **TanStack Table / Virtual** | Tối ưu rendering list/table lớn với virtualization. |
+| **Web Worker** | Chạy tác vụ nặng ở background thread. |
+| **PWA** | Progressive Web App hỗ trợ offline, push notification. |
 
 ---
 
-## 10. Checklist Tự Đánh Giá
+## 🛡️ Form & Bảo mật
+| Công nghệ | Mô tả |
+|-----------|-------|
+| **React Hook Form** | Xử lý form hiệu quả, giảm re-render. |
+| **Zod** | Validation schema-first, kết hợp tốt với TypeScript. |
+| **Next-Auth v5** | Authentication linh hoạt cho Next.js. |
 
-| Level | Junior → Mid | Mid → Senior | Senior → Tech Lead |
-|-------|--------------|--------------|--------------------|
-| **Code** | Nắm vững cú pháp, component cơ bản. | Tối ưu performance, reusable. | Thiết kế kiến trúc, code convention cho team. |
-| **Kiến thức core** | Hiểu React, JS cơ bản. | Hiểu sâu Next.js, TS. | Master state, architecture patterns. |
-| **DSA** | Biết giải problem cơ bản. | Thành thạo array, hash, tree. | Áp dụng DSA vào kiến trúc & tối ưu UI. |
-| **Teamwork** | Làm theo task. | Review code, mentoring. | Dẫn dắt team, thiết kế roadmap kỹ thuật. |
-| **Quản lý** | — | — | Quản lý chất lượng, performance toàn hệ thống. |
+---
+
+## 🔗 Routing & Real-time
+| Công nghệ | Mô tả |
+|-----------|-------|
+| **TanStack Router** | Type-safe router cho React. |
+| **Socket.io** | Real-time communication qua WebSocket. |
+
+---
+
+## 🛠️ Utilities
+| Công nghệ | Mô tả |
+|-----------|-------|
+| **Axios** | HTTP client mạnh mẽ, hỗ trợ interceptors. |
+| **RxJS** | Reactive programming với Observable pattern. |
+| ![GraphQL](https://skillicons.dev/icons?i=graphql) **Apollo Client** | GraphQL client tối ưu cache và data fetching. |
+| **Next.js Middleware** | Middleware xử lý request/response ở edge. |
+
+---
+
+## 📐 Design Patterns
+- Component Composition
+- Custom Hooks
+- Container/Presenter
+- Singleton / Provider
+- Facade / Proxy
+- Strategy
+- Observer
+- Compound Components
+- Render Props
+- HOC
+
+---
+
+## 🧪 Testing
+| Công nghệ | Mô tả |
+|-----------|-------|
+| **Jest / Vitest** | Unit test nhanh, hỗ trợ mocking. |
+| **React Testing Library** | Test UI theo cách user tương tác. |
+| **Cypress** | E2E testing hiện đại. |
+
+---
+
+## ☁️ Deployment & Monitoring
+| Công nghệ | Mô tả |
+|-----------|-------|
+| ![Vercel](https://skillicons.dev/icons?i=vercel) **Vercel / Netlify** | Deploy nhanh, tích hợp GitHub CI/CD. |
+| ![Docker](https://skillicons.dev/icons?i=docker) **Docker** | Container hóa ứng dụng cho CI/CD. |
+| **Lighthouse** | Kiểm tra hiệu suất, SEO, PWA. |
+| **Sentry** | Giám sát lỗi runtime. |
+
+---
+
+## 🏗️ Kiến trúc
+| Công nghệ | Mô tả |
+|-----------|-------|
+| **Monorepo (Nx)** | Quản lý nhiều package trong một repo. |
+| **Micro Frontends** | Chia ứng dụng thành các phần độc lập. |
+| **Module Federation** | Chia sẻ module giữa các app khác nhau. |
+
+---
+
+## ♿ Khác
+- **Accessibility**: react-aria, hỗ trợ ARIA roles và keyboard navigation.
+- **i18n**: i18next, Next.js i18n routing.
+- **GraphQL**: Data fetching linh hoạt, giảm over-fetching.

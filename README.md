@@ -250,5 +250,3 @@ Tài liệu này liệt kê **tech stack frontend** được cập nhật cho 20
 - OWASP Frontend Security — https://owasp.org/
 
 ---
-
-> _Phiên bản: 2025. Mục đích: làm tài liệu tham chiếu tech stack frontend cho project / team. Nếu bạn muốn mình xuất file `README.md` sẵn để tải về, nói “xuất file” mình sẽ tạo link tải ngay._

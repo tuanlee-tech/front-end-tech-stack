@@ -2,7 +2,15 @@
 
 Dự án này là bước khởi đầu lý tưởng để xây dựng nền tảng vững chắc cho lập trình frontend, tập trung vào việc chuyển từ lý thuyết sang thực hành production-ready. Bạn sẽ xây dựng một ứng dụng quản lý công việc (Task Management App) đơn giản, hỗ trợ các chức năng cơ bản như tạo, đọc, cập nhật, xóa nhiệm vụ (CRUD), lọc và tìm kiếm nhiệm vụ, cùng với xác thực người dùng cơ bản (login/logout). Ứng dụng sẽ bắt đầu từ React thuần túy, sau đó tích hợp TypeScript để đảm bảo type-safety, thêm routing cho navigation, và mở rộng với form validation, testing. Mục tiêu là tạo ra một app responsive, dễ maintain, với trọng tâm vào performance và code chất lượng cao.
 
-Thời gian ước tính: 6-8 tuần (bao gồm mở rộng), chia thành các giai đoạn: Tuần 1-2 (setup và build core features), Tuần 3-4 (refactor với TypeScript và optimization), Tuần 5-6 (testing, documentation, benchmark), Tuần 7-8 (tích hợp góc nhìn BA/QA/Tech Lead nếu cần sâu hơn). Bạn sẽ refactor code ít nhất 2 lần: lần 1 để thêm type-safety và memoization, lần 2 để tích hợp testing và accessibility. Cuối dự án, app sẽ được deploy lên Vercel hoặc Netlify miễn phí để demo.
+Thời gian ước tính: 6-8 tuần (bao gồm mở rộng), chia thành các giai đoạn: 
+- Tuần 1-2 (setup và build core features)
+- Tuần 3-4 (refactor với TypeScript và optimization)
+- Tuần 5-6 (testing, documentation, benchmark)
+- Tuần 7-8 (tích hợp góc nhìn BA/QA/Tech Lead nếu cần sâu hơn). Bạn sẽ refactor code ít nhất 2 lần: 
+  - Lần 1 để thêm type-safety và memoization
+  - Lần 2 để tích hợp testing và accessibility. 
+  
+Cuối dự án, app sẽ được deploy lên Vercel hoặc Netlify miễn phí để demo.
 
 #### Mô Tả Chi Tiết Ứng Dụng
 - **Chức Năng Chính**:

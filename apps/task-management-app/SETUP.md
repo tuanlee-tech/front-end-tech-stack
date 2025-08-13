@@ -5,9 +5,8 @@
 
 Chúng ta sẽ sử dụng **Vite** làm build tool vì nó nhanh, hỗ trợ TypeScript tốt, và phù hợp với React 19+. Sau đó, tích hợp Tailwind CSS, ESLint, Prettier, và các dependencies khác.
 
-#### Code Setup
 
-```js
+
 
 # Hướng Dẫn Setup Dự Án Task Management App
 

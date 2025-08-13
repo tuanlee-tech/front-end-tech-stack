@@ -142,7 +142,6 @@ npm run dev
 
 Mở `http://localhost:5173` để kiểm tra.
 
-```
 
 ---
 
@@ -150,7 +149,8 @@ Mở `http://localhost:5173` để kiểm tra.
 
 Dựa trên cấu trúc feature-based đã đề xuất, tạo các thư mục sau:
 
-```
+
+```bash 
 task-management-app/
 ├── public/
 ├── src/

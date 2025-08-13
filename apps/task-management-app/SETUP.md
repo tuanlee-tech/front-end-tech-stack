@@ -7,7 +7,7 @@ Chúng ta sẽ sử dụng **Vite** làm build tool vì nó nhanh, hỗ trợ Ty
 
 #### Code Setup
 
-<xaiArtifact artifact_id="d8462380-04ac-4186-8f7e-f72b7211efe3" artifact_version_id="f7f22452-c568-4a58-92ad-d392fc83a071" title="setup-instructions.md" contentType="text/markdown">
+```js
 
 # Hướng Dẫn Setup Dự Án Task Management App
 
@@ -142,7 +142,7 @@ npm run dev
 
 Mở `http://localhost:5173` để kiểm tra.
 
-</xaiArtifact>
+```
 
 ---
 
@@ -221,7 +221,7 @@ Chúng ta sẽ bắt đầu với các feature chính: **User Auth**, **CRUD Tas
 
 Tạo context và hook để quản lý auth state, sử dụng local storage để persist user.
 
-<xaiArtifact artifact_id="087628ab-287c-4df5-a1cc-c33ed619fe4c" artifact_version_id="ebec3fb5-e7c3-469b-b228-dd6602805a34" title="src/contexts/AuthContext.tsx" contentType="text/typescript">
+```js
 
 import { createContext, useContext, useState, ReactNode } from 'react';
 import { useLocalStorage } from '../hooks/useLocalStorage';
@@ -268,9 +268,9 @@ export function useAuth() {
   return context;
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="b8e45577-37cb-4604-9aa7-b57452f6cf3c" artifact_version_id="474bb616-9f19-417f-99ad-379a8905f326" title="src/hooks/useLocalStorage.ts" contentType="text/typescript">
+```js
 
 import { useState, useEffect } from 'react';
 
@@ -297,9 +297,9 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
   return [storedValue, setValue];
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="53b9a4a3-9cc8-4d79-891a-5780efb543d6" artifact_version_id="e8a12ba2-4280-49c9-9895-0b9ddd7e95e3" title="src/features/auth/components/LoginForm.tsx" contentType="text/typescript">
+```js
 
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -350,7 +350,7 @@ export function LoginForm() {
   );
 }
 
-</xaiArtifact>
+```
 
 **Giải Thích**:
 - **AuthContext**: Quản lý user state, cung cấp `login`/`logout` functions.
@@ -363,7 +363,7 @@ export function LoginForm() {
 
 Tạo API client và hook để quản lý tasks, tích hợp mock API với MSW.
 
-<xaiArtifact artifact_id="7c760d6d-b77b-4348-b9c8-5d0477bea62e" artifact_version_id="b05afb62-bd6e-4090-97c8-8069ac91ee52" title="src/api/axiosInstance.ts" contentType="text/typescript">
+```js
 
 import axios from 'axios';
 
@@ -379,9 +379,9 @@ axiosInstance.interceptors.request.use((config) => {
 
 export default axiosInstance;
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="33a2e369-4e1e-46f5-9fc7-257414f1e9ba" artifact_version_id="b7f06969-5a64-4293-a072-4eb185f14c86" title="src/features/tasks/types.ts" contentType="text/typescript">
+```js
 
 export interface Task {
   id: string;
@@ -399,9 +399,9 @@ export interface TaskInput {
   priority: 'low' | 'medium' | 'high';
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="177ea876-77e5-4326-b8be-370b576e6c41" artifact_version_id="9ffafa0f-5608-429a-a746-426eed6c6421" title="src/features/tasks/hooks/useTasks.ts" contentType="text/typescript">
+```js
 
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import axiosInstance from '../../../api/axiosInstance';
@@ -450,9 +450,9 @@ export function useTasks() {
   return { tasks, isLoading, error, createTask, updateTask, deleteTask };
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="e9ed3b76-876d-47a0-997d-0394059af850" artifact_version_id="01dbfcdb-5e02-461a-953f-e5fcc7077809" title="src/api/mocks/handlers.ts" contentType="text/typescript">
+```js
 
 import { rest } from 'msw';
 
@@ -485,7 +485,7 @@ export const handlers = [
   }),
 ];
 
-</xaiArtifact>
+```
 
 **Giải Thích**:
 - **axiosInstance**: Config Axios với baseURL, sẵn sàng thêm interceptors cho auth.
@@ -498,7 +498,7 @@ export const handlers = [
 
 Tạo form để thêm/sửa task và component để filter/search tasks.
 
-<xaiArtifact artifact_id="51705c75-25a6-44a6-8224-317373c115b7" artifact_version_id="2612b72e-4c77-4fc8-b6c3-72faf43742f6" title="src/features/tasks/components/TaskForm.tsx" contentType="text/typescript">
+```js
 
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -577,11 +577,9 @@ export function TaskForm({ task, onSubmitSuccess }: TaskFormProps) {
     </form>
   );
 }
+```
 
-</xaiArtifact>
-
-<xaiArtifact artifact_id="54339ecf-08e8-48ed-9bb7-e5f153ae45f3" artifact_version_id="6694b8d4-9361-4689-8be0-7285a3805a32" title="src/features/tasks/components/FilterSearch.tsx" contentType="text/typescript">
-
+```js
 import { useState, useMemo } from 'react';
 import { Input } from '../../../components/Input';
 import { Task } from '../types';
@@ -640,7 +638,7 @@ export function FilterSearch({ tasks, onFilter }: FilterSearchProps) {
   );
 }
 
-</xaiArtifact>
+```
 
 **Giải Thích**:
 - **TaskForm**: Dùng React Hook Form + Zod để validate form, hỗ trợ cả create và update tasks. Tích hợp với `useTasks` hook để gọi mutations.
@@ -652,8 +650,7 @@ export function FilterSearch({ tasks, onFilter }: FilterSearchProps) {
 
 Tạo component hiển thị danh sách tasks và setup routing với TanStack Router.
 
-<xaiArtifact artifact_id="46dfe4fe-5ffb-4203-93a3-eafa6ddb3ce7" artifact_version_id="6ec9d2b0-5f19-4fae-b0bd-b9a1178ec3c5" title="src/features/tasks/components/TaskList.tsx" contentType="text/typescript">
-
+```js
 import { useState } from 'react';
 import { Task } from '../types';
 import { useTasks } from '../hooks/useTasks';
@@ -685,10 +682,9 @@ export function TaskList() {
   );
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="2eab33a7-24b5-4c07-9ff8-aaff220c1acf" artifact_version_id="1aa01a73-dbe7-4978-becc-a7e739bdbe22" title="src/components/TaskItem.tsx" contentType="text/typescript">
-
+```js
 import { Task } from '../features/tasks/types';
 import { Button } from './Button';
 import { useNavigate } from '@tanstack/react-router';
@@ -718,10 +714,9 @@ export const TaskItem = React.memo(({ task, onDelete }: TaskItemProps) => {
   );
 });
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="91b00e79-9bc8-4d0c-aaca-7cc32c39b466" artifact_version_id="55785daf-543a-4fd9-8d91-a17df4a1aab5" title="src/router/routes.ts" contentType="text/typescript">
-
+```js
 import { createRouter, createRootRoute, createRoute } from '@tanstack/react-router';
 import { Home } from '../pages/Home';
 import { Tasks } from '../pages/Tasks';
@@ -758,9 +753,9 @@ const routeTree = rootRoute.addChildren([homeRoute, tasksRoute, taskDetailRoute]
 
 export const router = createRouter({ routeTree });
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="7109bab4-4a1a-4bfb-8678-0d93b0a039a0" artifact_version_id="94be80ed-cd2d-440b-b136-e0a082c7cac0" title="src/pages/Tasks.tsx" contentType="text/typescript">
+```js
 
 import { TaskList } from '../features/tasks/components/TaskList';
 import { MainLayout } from '../layouts/MainLayout';
@@ -773,9 +768,9 @@ export function Tasks() {
   );
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="b27f47e6-6c62-4a87-b885-c60314ca0cc7" artifact_version_id="8fbe4e3e-161a-4971-a501-dcaeb21e4c90" title="src/pages/TaskDetail.tsx" contentType="text/typescript">
+```js
 
 import { useParams } from '@tanstack/react-router';
 import { TaskForm } from '../features/tasks/components/TaskForm';
@@ -796,7 +791,7 @@ export function TaskDetail() {
   );
 }
 
-</xaiArtifact>
+```
 
 **Giải Thích**:
 - **TaskList**: Hiển thị danh sách tasks, tích hợp filter/search và form. Handle loading/error states từ TanStack Query.
@@ -809,7 +804,7 @@ export function TaskDetail() {
 
 Tạo reusable components và layout cho app.
 
-<xaiArtifact artifact_id="1e385357-4a0e-4192-9d49-7f27f8507401" artifact_version_id="3555c768-497f-4c33-a985-96d75ac1a8e1" title="src/components/Button.tsx" contentType="text/typescript">
+```js
 
 import { ButtonHTMLAttributes } from 'react';
 
@@ -831,9 +826,9 @@ export function Button({ children, variant = 'primary', ...props }: ButtonProps)
   );
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="fbff0af1-09e4-434e-9b99-05ffe9b6a9a7" artifact_version_id="07b9e25b-5f52-4a55-891a-4fd67d3b797e" title="src/components/Input.tsx" contentType="text/typescript">
+```js
 
 import { InputHTMLAttributes } from 'react';
 
@@ -848,9 +843,9 @@ export function Input({ className = '', ...props }: InputProps) {
   );
 }
 
-</xaiArtifact>
+```
 
-<xaiArtifact artifact_id="abf38f6d-345a-40a0-bf5a-d33f0f7e9cff" artifact_version_id="40048ea3-0f26-4683-832a-c6bc51c0b3d9" title="src/layouts/MainLayout.tsx" contentType="text/typescript">
+```js
 
 import { ReactNode } from 'react';
 import { useAuth } from '../contexts/AuthContext';
@@ -887,7 +882,7 @@ export function MainLayout({ children }: MainLayoutProps) {
   );
 }
 
-</xaiArtifact>
+```
 
 **Giải Thích**:
 - **Button/Input**: Reusable components với Tailwind styles, hỗ trợ variants và accessibility.
@@ -899,18 +894,18 @@ export function MainLayout({ children }: MainLayoutProps) {
 
 Cấu hình MSW để mock API trong dev và test.
 
-<xaiArtifact artifact_id="c5cc25d1-cc8f-43ab-932e-9eb6199d7e0c" artifact_version_id="26d1b3c8-3392-44a6-8c13-09831fbc822a" title="src/api/mocks/browser.ts" contentType="text/typescript">
+```js
 
 import { setupWorker } from 'msw';
 import { handlers } from './handlers';
 
 export const worker = setupWorker(...handlers);
 
-</xaiArtifact>
+```
 
 Tạo file khởi chạy MSW trong dev:
 
-<xaiArtifact artifact_id="bf2ea6d9-1dca-46a8-ad47-7b885bb69349" artifact_version_id="1116c1b0-fd31-41d1-ab9b-b9375c73663f" title="src/main.tsx" contentType="text/typescript">
+```js
 
 import React from 'react';
 import ReactDOM from 'react-dom/client';
@@ -931,11 +926,11 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
   </React.StrictMode>
 );
 
-</xaiArtifact>
+```
 
 Tạo test cho `TaskList`:
 
-<xaiArtifact artifact_id="84eb319a-c040-4664-b6bc-b4293b3b7f76" artifact_version_id="28665af5-23ef-454c-b5a8-d06bb4a33235" title="src/features/tasks/tests/TaskList.test.tsx" contentType="text/typescript">
+```js
 
 import { render, screen } from '@testing-library/react';
 import { TaskList } from '../components/TaskList';
@@ -960,7 +955,7 @@ describe('TaskList', () => {
   });
 });
 
-</xaiArtifact>
+```
 
 **Giải Thích**:
 - **MSW**: Setup worker để mock API trong dev, tự động chạy khi `NODE_ENV=development`.
@@ -972,7 +967,7 @@ describe('TaskList', () => {
 
 Tạo file backlog để định nghĩa user stories:
 
-<xaiArtifact artifact_id="2d2b73c4-3f82-4c99-8ac2-b410f40c295f" artifact_version_id="a2aaee6c-5dd2-45fd-bdbc-ec3d1ba9f6c1" title="docs/backlog.md" contentType="text/markdown">
+```js
 
 # Product Backlog: Task Management App
 
@@ -994,7 +989,7 @@ Tạo file backlog để định nghĩa user stories:
 - **Could Have**: Drag-and-drop sorting.
 - **Won't Have**: Real-time notifications (for now).
 
-</xaiArtifact>
+```
 
 **Benchmark**:
 - Dùng React DevTools để đo re-renders (<3 per interaction).

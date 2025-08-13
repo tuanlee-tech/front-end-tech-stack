@@ -1,7 +1,7 @@
 # 🌐 Frontend Tech Stack 2025
 
 <p align="center">
-  <img src="https://skillicons.dev/icons?i=react,nextjs,typescript,redux,tailwind,materialui,graphql,docker,vercel" />
+  <img src="https://skillicons.dev/icons?i=react,nextjs,typescript,redux,tailwind,materialui,graphql,docker,vercel,wasm,electron" />
 </p>
 
 <p align="center">
@@ -20,13 +20,22 @@
   <a href="https://redux-toolkit.js.org/" target="_blank">
     <img src="https://img.shields.io/badge/Redux%20Toolkit-%20purple?style=flat&logo=redux&logoColor=white" alt="Redux Toolkit" />
   </a>
+  <a href="https://tanstack.com/query" target="_blank">
+    <img src="https://img.shields.io/badge/TanStack%20Query-v9+-FF4154?style=flat&logo=reactquery&logoColor=white" alt="TanStack Query" />
+  </a>
+  <a href="https://vercel.com" target="_blank">
+    <img src="https://img.shields.io/badge/Vercel-black?style=flat&logo=vercel&logoColor=white" alt="Vercel" />
+  </a>
+  <a href="https://webassembly.org/" target="_blank">
+    <img src="https://img.shields.io/badge/WebAssembly-WASM-654FF0?style=flat&logo=webassembly&logoColor=white" alt="WebAssembly" />
+  </a>
 </p>
 
 ---
 
 ## 📑 Mục lục
 - [Giới thiệu](#giới-thiệu)
-- [Badges & Quick links](#badges--quick-links)
+- [Badges & Quick Links](#badges--quick-links)
 - [🚀 Framework & Nền tảng](#-framework--nền-tảng)
 - [📦 Quản lý trạng thái](#-quản-lý-trạng-thái)
 - [🎨 UI & Hiệu suất](#-ui--hiệu-suất)
@@ -42,211 +51,266 @@
 - [♿ Accessibility & i18n](#♿-accessibility--i18n)
 - [🔒 Security & Dependency Management](#-security--dependency-management)
 - [🧩 Design System & Component Library](#-design-system--component-library)
-- [📈 DSA cho Frontend (tóm tắt)](#-dsa-cho-frontend-tóm-tắt)
+- [📈 DSA cho Frontend](#-dsa-cho-frontend)
+- [🧑‍🏫 Leadership & Team Processes](#-leadership--team-processes)
+- [🌍 Cross-Platform Integration](#-cross-platform-integration)
+- [📝 Documentation & Onboarding](#-documentation--onboarding)
 - [💡 Gợi ý mở rộng](#-gợi-ý-mở-rộng)
 - [Tài nguyên tham khảo](#tài-nguyên-tham-khảo)
 
 ---
 
 ## Giới thiệu
-Tài liệu này liệt kê **tech stack frontend** được cập nhật cho 2025, mục tiêu: xây dựng ứng dụng web hiệu suất cao, dễ mở rộng, an toàn, phù hợp tiêu chuẩn thực tế của các công ty lớn (Meta, Netflix, Amazon, Uber, Shopify). README tập trung vào **công nghệ, công cụ, pattern, và best practice** — để đưa trực tiếp vào repo team.
+Tài liệu này là bản tổng hợp hoàn hảo về **tech stack frontend** cho năm 2025, nhằm xây dựng ứng dụng web hiệu suất cao, dễ mở rộng, an toàn, và phù hợp với tiêu chuẩn thực tế của các công ty lớn (Meta, Netflix, Amazon, Uber, Shopify). README tập trung vào **công nghệ, công cụ, pattern, và best practices**, được thiết kế hiện đại, ngắn gọn, và nhấn mạnh tính ứng dụng thực tế. Từ TypeScript type-safe cho API calls, tối ưu bundle size với Next.js App Router, đến các kỹ năng lãnh đạo như code review và mentoring, đây là công cụ lý tưởng để hệ thống hóa kiến thức và dẫn dắt đội nhóm frontend.
 
 ---
 
-## Badges & Quick links
-[React](https://react.dev) · [Next.js](https://nextjs.org) · [TypeScript](https://www.typescriptlang.org) · [Tailwind](https://tailwindcss.com) · [Redux Toolkit](https://redux-toolkit.js.org) · [TanStack Query](https://tanstack.com/query) · [Vercel](https://vercel.com)
+## Badges & Quick Links
+[React](https://react.dev) · [Next.js](https://nextjs.org) · [TypeScript](https://www.typescriptlang.org) · [Tailwind](https://tailwindcss.com) · [Redux Toolkit](https://redux-toolkit.js.org) · [TanStack Query](https://tanstack.com/query) · [Vercel](https://vercel.com) · [GraphQL](https://graphql.org) · [Docker](https://www.docker.com) · [Storybook](https://storybook.js.org) · [Sentry](https://sentry.io) · [WebAssembly](https://webassembly.org) · [React Native](https://reactnative.dev) · [OpenTelemetry](https://opentelemetry.io)
 
 ---
 
 ## 🚀 Framework & Nền tảng
-| Công nghệ | Mô tả ngắn |
+| Công nghệ | Công dụng |
 |---:|---|
-| **React 18+** | Component-based UI library; Hooks, Concurrent rendering, Suspense. |
-| **Next.js 14+ (App Router)** | SSR/SSG/ISR, server components, middleware, streaming & edge rendering. |
-| **TypeScript 5+** | Static typing, utility types, strict mode → maintainability ở scale lớn. |
-| **Node.js** | Runtime cho scripts, build tools và backend-for-frontend (BFF) khi cần. |
+| **React 18+** | Xây dựng giao diện người dùng với components, hỗ trợ Hooks, Concurrent Rendering, và Suspense cho hiệu suất cao. |
+| **Next.js 14+ (App Router)** | Framework React hỗ trợ SSR/SSG/ISR, server components, middleware, streaming và edge rendering để tối ưu SEO và performance. |
+| **TypeScript 5+** | Cung cấp static typing, utility types, và strict mode để tăng tính maintainable ở ứng dụng scale lớn. |
+| **Node.js** | Runtime cho scripts, build tools và backend-for-frontend (BFF), hỗ trợ tích hợp với Next.js API Routes. |
+| **WebAssembly (WASM)** | Chạy code hiệu suất cao trong browser, dùng cho tác vụ nặng như rendering, AI, hoặc game. |
 
 ---
 
 ## 📦 Quản lý trạng thái
-| Công nghệ | Khi dùng / Lợi ích |
+| Công nghệ | Công dụng |
 |---:|---|
-| **Redux Toolkit** | Dự án có state phức tạp, nhiều team; RTK Query cho caching. |
-| **Zustand** | State local or lightweight global state, tối ưu cho performance. |
-| **TanStack Query (React Query)** | Server-state: cache, background refetch, optimistic updates. |
-| **Redux Saga / Thunk** | Side-effects phức tạp, orchestration (saga cho long running flows). |
+| **Redux Toolkit** | Quản lý state phức tạp với RTK Query để caching, giảm boilerplate và hỗ trợ offline sync. |
+| **Zustand** | Quản lý state local hoặc global nhẹ, tối ưu performance với middleware và immutable updates. |
+| **TanStack Query (React Query)** | Quản lý server-state với caching, background refetch, và optimistic updates cho giao diện real-time. |
+| **Redux Saga / Thunk** | Xử lý side-effects phức tạp (Saga cho long-running flows) hoặc async cơ bản (Thunk) với logging và orchestration. |
 
 ---
 
 ## 🎨 UI & Hiệu suất
-| Công nghệ | Mô tả ngắn |
+| Công nghệ | Công dụng |
 |---:|---|
-| **Tailwind CSS** | Utility-first; nhanh để phát triển UI, dễ token hoá. |
-| **Ant Design / MUI / shadcn/ui** | Component library production-ready. |
-| **TanStack Table / Virtual** | Virtualization cho bảng/lists lớn (100k+ rows). |
-| **Web Worker / Off-main-thread** | Xử lý heavy tasks (parsing, transforms) không block UI. |
-| **PWA / Service Worker** | Offline support, caching strategies, background sync. |
-| **Image/Font Optimization** | AVIF/WebP, responsive images, font-display, preload/prefetch. |
+| **Tailwind CSS** | Utility-first CSS, giúp phát triển UI nhanh, dễ token hóa và hỗ trợ dark mode. |
+| **Ant Design / MUI / shadcn/ui** | Thư viện component production-ready, hỗ trợ theme customization và headless components. |
+| **TanStack Table / Virtual** | Virtualization cho bảng/lists lớn, chỉ render visible items để tối ưu hiệu suất. |
+| **Web Worker / Off-main-thread** | Xử lý tác vụ nặng (parsing, transforms) ở luồng riêng, tránh block UI. |
+| **PWA / Service Worker** | Hỗ trợ offline, caching tài nguyên, background sync và push notifications. |
+| **Image/Font Optimization** | Sử dụng AVIF/WebP, responsive images, font-display, preload/prefetch để tối ưu tốc độ load. |
+| **Framer Motion / Three.js** | Tạo animations phức tạp hoặc 3D UI cho trải nghiệm người dùng hiện đại. |
+| **AI-Driven UI (Figma AI)** | Tự động hóa prototyping, design-to-code, hoặc dynamic UI với AI. |
 
 ---
 
 ## 🛡️ Form & Bảo mật
-| Công nghệ | Mô tả |
+| Công nghệ | Công dụng |
 |---:|---|
-| **React Hook Form** | High-performance form handling, minimal re-render. |
-| **Zod** | Schema validation + TypeScript inference. |
-| **NextAuth v5** | Auth providers, session management (SSR/CSR). |
-| **Best practices** | XSS prevention, input sanitization, CSP, secure cookies, same-site. |
+| **React Hook Form** | Xử lý form hiệu suất cao, giảm re-render, tích hợp resolver cho validation. |
+| **Zod** | Validation schema với TypeScript inference, đảm bảo dữ liệu đầu vào hợp lệ. |
+| **NextAuth v5** | Quản lý authentication với OAuth providers, JWT sessions và edge middleware. |
+| **Best practices** | Ngăn chặn XSS, input sanitization, CSP headers, secure cookies và same-site policies. |
 
 ---
 
 ## 🔗 Routing & Real-time
-| Công nghệ | Mô tả |
+| Công nghệ | Công dụng |
 |---:|---|
-| **TanStack Router** | Type-safe, nested routes, data loaders. |
-| **Socket.io / WebSocket** | Real-time channels, reconnection, rooms/namespace. |
-| **SSE / WebRTC** | Use cases: live updates (SSE) | media/peer-to-peer (WebRTC). |
+| **TanStack Router** | Định tuyến type-safe, hỗ trợ nested routes và data loaders cho prefetching. |
+| **Socket.io / WebSocket** | Giao tiếp real-time với reconnection logic, rooms/namespace và subscriptions. |
+| **SSE / WebRTC** | Cung cấp live updates (SSE) hoặc media/peer-to-peer communication (WebRTC). |
+| **gRPC** | Giao tiếp hiệu suất cao với backend, hỗ trợ streaming và type-safe với Protobuf. |
 
 ---
 
 ## 🛠️ Utilities & Data Fetching
-| Công nghệ | Mô tả |
+| Công nghệ | Công dụng |
 |---:|---|
-| **Axios / Fetch** | HTTP client; use interceptors for auth/token refresh. |
-| **RxJS** | Streams, debouncing/throttling advanced patterns. |
-| **Apollo Client / GraphQL** | Normalized cache, fragments, subscriptions. |
-| **MSW (Mock Service Worker)** | Mock API in tests & dev reliably. |
+| **Axios / Fetch** | HTTP client với interceptors cho auth và token refresh tự động. |
+| **RxJS** | Xử lý streams, debouncing/throttling cho event handling phức tạp. |
+| **Apollo Client / GraphQL** | Quản lý data fetching với normalized cache, fragments và subscriptions real-time. |
+| **MSW (Mock Service Worker)** | Mock API đáng tin cậy cho môi trường dev và testing. |
 
 ---
 
 ## 📐 Design Patterns (Frontend)
-- Component Composition / Presentational vs Container
-- Custom Hooks pattern
-- Compound Components
-- Render Props / HOC (where applicable)
-- Singleton & Provider (global instances)
-- Facade / Proxy / Adapter for API layers
-- Observer / Event Bus (pub-sub)
-- Strategy (pluggable behavior)
-- State Normalization (entities)
+- **Component Composition / Presentational vs Container**: Kết hợp components hoặc tách logic/UI để tái sử dụng.
+- **Custom Hooks pattern**: Tái sử dụng logic stateful với hooks như useDebounce.
+- **Compound Components**: Nhóm components chia sẻ state ngầm, như forms hoặc Select/Options.
+- **Render Props / HOC**: Chia sẻ code qua render functions hoặc higher-order components cho auth/data wrappers.
+- **Singleton & Provider**: Quản lý global instances (auth, theme) qua Context hoặc singleton classes.
+- **Facade / Proxy / Adapter**: Đơn giản hóa API layers hoặc lazy loading với proxy.
+- **Observer / Event Bus**: Xử lý pub-sub cho events như WebSocket subscriptions.
+- **Strategy**: Hoán đổi thuật toán linh hoạt (ví dụ: payment methods).
+- **State Normalization**: Tránh duplication state với entities cho complex data.
 
 ---
 
 ## 🧪 Testing & Mocking
-| Loại | Công cụ |
-|---:|---|
-| Unit | Jest / Vitest |
-| Component | React Testing Library |
-| E2E | Cypress / Playwright |
-| Contract Testing | Pact (frontend↔backend contract) |
-| Mocks | MSW (API mocking) |
-| Accessibility Tests | axe-core, jest-axe |
+| Loại | Công cụ | Công dụng |
+|---:|---|---|
+| Unit | Jest / Vitest | Test logic components, reducers, actions với snapshots. |
+| Component | React Testing Library | Test user interactions và accessibility của components. |
+| E2E | Cypress / Playwright | Test flows người dùng toàn diện, cross-browser. |
+| Contract Testing | Pact | Đảm bảo contract giữa frontend và backend. |
+| Mocks | MSW (API mocking) | Mock API đáng tin cậy cho dev và testing. |
+| Accessibility Tests | axe-core, jest-axe | Kiểm tra WCAG 2.1 và ARIA compliance tự động. |
 
-**Best practice:** Test pyramid — many unit tests, fewer integration tests, minimal but reliable E2E. Tích hợp tests vào CI với repeatable seeds.
+**Best practice**: Áp dụng test pyramid — nhiều unit tests, ít integration tests, E2E tối thiểu nhưng đáng tin cậy. Tích hợp tests vào CI với repeatable seeds.
 
 ---
 
 ## ☁️ Deployment, Release & Observability
 ### Triển khai & CI/CD
-- **Vercel / Netlify** — static/SSR deployments, previews.
-- **Docker** — container image cho staging/CI.
-- **GitHub Actions / GitLab CI** — pipeline lint → test → build → deploy.
-- **Turborepo / Nx caching** cho monorepo builds.
+- **Vercel / Netlify**: Deploy static/SSR với previews tự động.
+- **Docker**: Container hóa ứng dụng cho staging và CI consistency.
+- **GitHub Actions / GitLab CI**: Pipeline lint → test → build → deploy.
+- **Turborepo / Nx caching**: Tăng tốc build monorepo với caching.
 
 ### Release strategies
-- **Feature flags** (LaunchDarkly, Unleash, Flagsmith) — rollout theo user segment.
-- **Canary Releases / Phased rollout** — monitor small % trước khi full release.
-- **Blue-Green / Rolling Deploy** — zero-downtime deployments.
+- **Feature flags (LaunchDarkly, Unleash, Flagsmith)**: Rollout theo segment người dùng.
+- **Canary Releases / Phased rollout**: Monitor nhỏ trước khi full deploy.
+- **Blue-Green / Rolling Deploy**: Zero-downtime deployments cho high-availability.
 
 ### Observability & Monitoring
-- **Sentry** — error tracking + performance traces.
-- **RUM / Web Vitals** — measure LCP, CLS, INP, FID (Web Vitals), Real User Monitoring (New Relic Browser, Datadog RUM).
-- **Lighthouse CI** — auto-audit perf/SEO/accessibility in CI.
-- **Logging & Tracing** — client logs (LogRocket / FullStory / honeycomb) for session replay & debugging.
+- **Sentry**: Error tracking và performance traces.
+- **RUM / Web Vitals**: Đo lường LCP, CLS, INP, FID với Real User Monitoring (New Relic, Datadog).
+- **Lighthouse CI**: Auto-audit perf/SEO/accessibility trong CI.
+- **OpenTelemetry**: Tracing và monitoring client/server, phân tích bottlenecks trong distributed systems.
+- **Logging & Tracing**: Client logs (LogRocket, FullStory, honeycomb) cho session replay và debugging.
 
 ---
 
 ## 🏗️ Kiến trúc & Monorepo
-| Chủ đề | Chi tiết |
+| Chủ đề | Công dụng |
 |---:|---|
-| **Monorepo** | Nx / Turborepo: workspaces, caching, task running, shared libs. |
-| **Micro Frontends** | Module boundaries, shared dependencies, contract testing, independent deploys. |
-| **Module Federation (Webpack / Federation Plugins)** | Runtime module sharing, remote components, versioning strategies. |
-| **BFF / Edge** | Backend-for-frontend patterns, edge functions (Vercel Edge, Cloudflare Workers). |
+| **Monorepo** | Quản lý multi-apps với Nx/Turborepo, hỗ trợ workspaces, caching và shared libs. |
+| **Micro Frontends** | Chia ứng dụng thành modules độc lập, hỗ trợ shared dependencies và independent deploys. |
+| **Module Federation (Webpack / Federation Plugins)** | Runtime module sharing, load remote components với versioning strategies. |
+| **BFF / Edge** | Backend-for-frontend patterns và edge functions (Vercel Edge, Cloudflare Workers) để tối ưu API calls. |
 
 ---
 
 ## 📊 Performance Monitoring & Web Vitals
-- Thiết lập KPI: LCP, CLS, INP, TTFB, Time to Interactive.
-- Tools: **Lighthouse**, **PageSpeed**, **Web Vitals JS**, **Lighthouse CI**.
-- Tactics: preconnect/prefetch, HTTP/2/3, image lazy-loading, critical CSS, font loading strategies.
-- Bundle analysis: `webpack-bundle-analyzer`, `source-map-explorer`, `esbuild`/`swc` profiling.
+| Công nghệ | Công dụng |
+|---:|---|
+| **KPI** | Đặt mục tiêu LCP <2.5s, CLS=0, INP <200ms, TTFB <200ms, Time to Interactive <5s. |
+| **Tools** | Lighthouse, PageSpeed, Web Vitals JS, Lighthouse CI cho đo lường hiệu suất. |
+| **Tactics** | Preconnect/prefetch, HTTP/2/3, image lazy-loading, critical CSS, font loading strategies. |
+| **Bundle analysis** | webpack-bundle-analyzer, source-map-explorer, esbuild/swc profiling để tối ưu bundle size. |
+| **Performance Budgets** | Đặt giới hạn bundle size (<1MB), LCP (<2s), CLS (=0) để đảm bảo hiệu suất team-wide. |
 
 ---
 
 ## 🧠 API Design & GraphQL Best Practices
-- **REST best practices**: resource naming, pagination, filtering, HATEOAS where suitable.
-- **GraphQL**:
-  - Schema-first design, avoid N+1 (use dataloader), use fragments, persisted queries.
-  - Client-side cache policies (cache-first / network-first) depending on UX.
-  - Subscriptions for realtime (use sparingly).
-- **Contract Design**: keep clear API contracts; use OpenAPI / GraphQL schema as source of truth.
-- **Versioning & Deprecation**: plan deprecation strategy to avoid breaking hosts.
+| Công nghệ | Công dụng |
+|---:|---|
+| **REST best practices** | Resource naming, pagination, filtering, HATEOAS khi phù hợp. |
+| **GraphQL** | Schema-first design, tránh N+1 (dataloader), fragments, persisted queries, subscriptions real-time (sparingly). |
+| **Serverless (AWS Lambda, Vercel Functions)** | Xử lý logic backend nhẹ, tích hợp với Next.js API Routes hoặc edge functions. |
+| **API Gateway** | Tổng hợp API calls, cung cấp single entry point cho frontend-backend communication. |
+| **Contract Design** | Dùng OpenAPI/GraphQL schema làm source of truth. |
+| **Versioning & Deprecation** | Lên kế hoạch deprecation để tránh breaking changes. |
 
 ---
 
 ## ♿ Accessibility & i18n
-- **A11y**: WCAG 2.1 AA baseline, ARIA roles, focus management, skip links.
-- **Tools**: `axe-core`, `react-aria`, `jest-axe`, Lighthouse accessibility audits.
-- **i18n**: `i18next`, `next-intl`, locale routing, pluralization, RTL support.
-- **Content pipeline**: translation keys, CI checks for missing translations.
+| Chủ đề | Công dụng |
+|---:|---|
+| **A11y** | WCAG 2.1 AA, ARIA roles, focus management, skip links. |
+| **Tools** | axe-core, react-aria, jest-axe, Lighthouse accessibility audits. |
+| **i18n** | i18next, next-intl, hỗ trợ locale routing, pluralization, RTL. |
+| **Content pipeline** | Quản lý translation keys, CI checks cho missing translations. |
 
 ---
 
 ## 🔒 Security & Dependency Management
-- **Frontend security**: XSS mitigation, CSP headers, secure cookies, input validation.
-- **Scanning**: Dependabot, Snyk, npm audit in CI.
-- **Secrets management**: use environment variables in Vercel/GitHub Actions; never commit secrets.
-- **Secure headers**: CSP, HSTS, Referrer-Policy, Feature-Policy.
+| Chủ đề | Công dụng |
+|---:|---|
+| **Frontend security** | Ngăn chặn XSS, CSP headers, secure cookies, input validation. |
+| **Scanning** | Dependabot, Snyk, npm audit trong CI. |
+| **Secrets management** | Environment variables trong Vercel/GitHub Actions, không commit secrets. |
+| **Secure headers** | CSP, HSTS, Referrer-Policy, Feature-Policy. |
 
 ---
 
 ## 🧩 Design System & Component Library
-- **Storybook** — document components, visual tests, accessibility add-ons.
-- **Design tokens**: centralized tokens (colors, spacing, typography) synchronized with Figma.
-- **Publishing**: buildable component packages in monorepo, semantic versioning.
-- **Visual regression**: Chromatic / Percy.
+| Chủ đề | Công dụng |
+|---:|---|
+| **Storybook** | Document components, visual tests, accessibility add-ons. |
+| **Design tokens** | Centralized colors, spacing, typography, sync với Figma. |
+| **Publishing** | Buildable component packages trong monorepo, semantic versioning. |
+| **Visual regression** | Chromatic, Percy cho kiểm tra UI consistency. |
 
 ---
 
-## 📈 DSA cho Frontend (tóm tắt)
-- **Array / String**: sorting, sliding window, two pointers.
-- **HashMap / Set**: caching, dedupe.
-- **Stack / Queue**: undo/redo, BFS/DFS basics.
-- **Tree / Graph**: menu / route trees, dependency graphs.
-- **Heap / PQ**: scheduling tasks.
-- **Big-O**: time/space complexity decisions for UI algorithms.
+## 📈 DSA cho Frontend
+| Chủ đề | Công dụng |
+|---:|---|
+| **Array / String** | Sorting, sliding window, two pointers cho UI filtering. |
+| **HashMap / Set** | Caching, deduplication dữ liệu. |
+| **Stack / Queue** | Undo/redo, BFS/DFS cơ bản. |
+| **Tree / Graph** | Menu/route trees, dependency graphs. |
+| **Heap / Priority Queue** | Scheduling tasks trong UI. |
+| **Big-O** | Đánh giá time/space complexity cho thuật toán UI. |
 
 ---
 
-## 💡 Gợi ý mở rộng (quick list)
-- **Playwright** cho cross-browser E2E.
-- **MSW (Mock Service Worker)** cho dev & test.
-- **Pact** cho contract testing giữa FE & BE.
-- **Feature flagging** (LaunchDarkly / Unleash).
-- **Edge caching & CDN** (CloudFront, Fastly, Cloudflare).
-- **Observability stack**: Sentry + Datadog + Lighthouse CI.
-- **Accessibility audits & training** cho team.
+## 🧑‍🏫 Leadership & Team Processes
+| Chủ đề | Công dụng |
+|---:|---|
+| **Code Review** | Đảm bảo code quality với ESLint, Prettier, và checklist (consistency, readability, performance). |
+| **Technical Debt Management** | Xác định và refactor technical debt (ví dụ: migrate legacy code, tối ưu bundle size). |
+| **Mentoring** | Hướng dẫn junior developers qua pair programming, tech talks, và wiki nội bộ. |
+| **Agile/Scrum** | Hỗ trợ sprint planning, story points, và backlog grooming để align với team PM/BA. |
+
+---
+
+## 🌍 Cross-Platform Integration
+| Công nghệ | Công dụng |
+|---:|---|
+| **React Native** | Xây dựng mobile apps từ codebase React, tái sử dụng logic với web. |
+| **Electron** | Phát triển desktop apps với web technologies (HTML, CSS, JS). |
+| **Code Sharing** | Dùng Monorepo để share logic giữa web, mobile, và desktop. |
+
+---
+
+## 📝 Documentation & Onboarding
+| Chủ đề | Công dụng |
+|---:|---|
+| **API Docs (OpenAPI)** | Tài liệu hóa API endpoints với OpenAPI/Swagger cho team integration. |
+| **Component Docs (Storybook)** | Document components với use cases, accessibility, và visual tests. |
+| **Onboarding Guides** | Hướng dẫn setup môi trường, coding conventions, và quy trình CI/CD. |
+
+---
+
+## 💡 Gợi ý mở rộng
+- **AI/ML Integration**: TensorFlow.js, ml5.js cho predictive analytics hoặc chatbot trong browser.
+- **Playwright**: Cross-browser E2E testing.
+- **Pact**: Contract testing giữa frontend và backend.
+- **Feature flagging**: LaunchDarkly, Unleash cho rollout linh hoạt.
+- **Edge caching & CDN**: CloudFront, Fastly, Cloudflare để tối ưu tốc độ.
+- **Observability stack**: Sentry, Datadog, Lighthouse CI.
+- **Accessibility training**: Đào tạo team về WCAG và ARIA.
+- **WebGPU**: Đồ họa hiệu suất cao trong browser cho 3D rendering hoặc game.
+- **Low-Code Platforms (Retool, Appsmith)**: Xây dựng internal tools nhanh cho team.
 
 ---
 
 ## Tài nguyên tham khảo
-- Next.js docs — https://nextjs.org/docs  
-- React docs — https://react.dev  
-- TypeScript Handbook — https://www.typescriptlang.org/docs/  
-- Redux Toolkit — https://redux-toolkit.js.org/  
-- TanStack Query — https://tanstack.com/query  
-- Web Vitals — https://web.dev/vitals/  
-- OWASP Frontend Security — https://owasp.org/
-
----
+- [Next.js Docs](https://nextjs.org/docs)
+- [React Docs](https://react.dev)
+- [TypeScript Handbook](https://www.typescriptlang.org/docs)
+- [Redux Toolkit](https://redux-toolkit.js.org)
+- [TanStack Query](https://tanstack.com/query)
+- [Web Vitals](https://web.dev/vitals)
+- [OWASP Frontend Security](https://owasp.org)
+- [Storybook Docs](https://storybook.js.org)
+- [TensorFlow.js](https://www.tensorflow.org/js)
+- [WebAssembly](https://webassembly.org)
+- [React Native](https://reactnative.dev)
+- [OpenTelemetry](https://opentelemetry.io)
+- [gRPC](https://grpc.io)
+- [Roadmap.sh](https://roadmap.sh/frontend)

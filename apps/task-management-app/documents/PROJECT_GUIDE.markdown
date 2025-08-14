@@ -200,13 +200,13 @@ npm install
 #### ✅ Dependencies (Production)
 
 ```bash
-npm install @tanstack/react-router @tanstack/react-router-devtools react-hook-form zod axios tailwindcss @tailwindcss/vite
+npm install @tanstack/react-router @tanstack/react-router-devtools react-hook-form zod @hookform/resolvers axios tailwindcss @tailwindcss/vite
 ```
 
 #### 🛠️ DevDependencies (Development & Testing)
 
 ```bash
-npm install --save-dev @tanstack/router-plugin msw @axe-core/react @testing-library/react @testing-library/jest-dom @testing-library/user-event prettier vitest jsdom
+npm install --save-dev @types/react @types/react-dom @tanstack/router-plugin msw @axe-core/react @testing-library/react @testing-library/jest-dom @testing-library/user-event prettier vitest jsdom
 ```
 
 ### Bước 3: Cấu Hình Tailwind CSS
@@ -328,7 +328,7 @@ configure({ testIdAttribute: 'data-testid' });
 ```
 
 ### Bước 7: Setup MSW cho Mock API
-
+#### MSW version 1:
 Tạo `src/api/mocks/handlers.ts`:
 
 ```typescript
@@ -373,28 +373,117 @@ import { handlers } from './handlers';
 
 export const worker = setupWorker(...handlers);
 ```
+#### MSW version 2:
+
+Tạo `src/api/mocks/handlers.ts`:
+
+```typescript
+import { http, HttpResponse } from 'msw';
+import type { Task, TaskInput } from '../../features/tasks/types';
+
+let mockTasks: Task[] = [
+    { id: '1', title: 'Sample Task', priority: 'medium', status: 'todo' },
+    { id: '2', title: 'Another Task', priority: 'low', status: 'in-progress' },
+];
+
+export const handlers = [
+    // GET: Lấy tất cả các task
+    http.get('/tasks', () => {
+        return HttpResponse.json(mockTasks);
+    }),
+
+    // POST: Tạo một task mới
+    http.post('/tasks', async ({ request }) => {
+        const taskInput = (await request.json()) as TaskInput;
+        const newTask: Task = {
+            id: String(mockTasks.length + 1),
+            ...taskInput,
+            status: 'todo', // Status mặc định
+        };
+        mockTasks.push(newTask);
+        return HttpResponse.json(newTask, { status: 201 });
+    }),
+
+    // PUT: Cập nhật một task
+    http.put('/tasks/:id', async ({ request, params }) => {
+        const { id } = params;
+        const updates = (await request.json()) as Partial<Task>;
+
+        let updatedTask: Task | undefined;
+        mockTasks = mockTasks.map((task) => {
+            if (task.id === id) {
+                updatedTask = { ...task, ...updates };
+                return updatedTask;
+            }
+            return task;
+        });
+
+        if (!updatedTask) {
+            return new HttpResponse('Task not found', { status: 404 });
+        }
+
+        return HttpResponse.json(updatedTask);
+    }),
+
+    // DELETE: Xóa một task
+    http.delete('/tasks/:id', ({ params }) => {
+        const { id } = params;
+        const initialLength = mockTasks.length;
+        mockTasks = mockTasks.filter((task) => task.id !== id);
+
+        if (mockTasks.length === initialLength) {
+            return new HttpResponse('Task not found', { status: 404 });
+        }
+
+        return new HttpResponse(null, { status: 204 });
+    }),
+];
+```
+
+Tạo `src/api/mocks/browser.ts`:
+
+```typescript
+import { setupWorker } from 'msw/browser';
+import { handlers } from './handlers';
+
+/**
+ * Khởi tạo MSW worker cho browser
+ */
+export const worker = setupWorker(...handlers);
+```
 
 Cập nhật `src/main.tsx`:
 
 ```typescript
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App';
 import './index.css';
 import { RouterProvider } from '@tanstack/react-router';
 import { router } from './router/routes';
 
-if (process.env.NODE_ENV === 'development') {
-  import('./api/mocks/browser').then(({ worker }) => {
-    worker.start();
-  });
+/**
+ * Hàm khởi động MSW worker một cách bất đồng bộ.
+ * Chỉ chạy trong môi trường development.
+ */
+async function enableMocking() {
+  if (process.env.NODE_ENV !== 'development') {
+    return;
+  }
+
+  // Sử dụng dynamic import để tải worker từ MSW
+  const { worker } = await import('./api/mocks/browser');
+  
+  // worker.start() trả về một Promise. Chúng ta đợi Promise này hoàn thành.
+  return worker.start();
 }
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-  </React.StrictMode>
-);
+enableMocking().then(() => {
+  ReactDOM.createRoot(document.getElementById('root')!).render(
+    <React.StrictMode>
+      <RouterProvider router={router} />
+    </React.StrictMode>
+  );
+});
 ```
 
 ### Bước 8: Code Mẫu (Phiên Bản Đầu Tiên với useState)
@@ -648,6 +737,121 @@ export function useTasks() {
   return { tasks, isLoading, error, createTask, updateTask, deleteTask };
 }
 ```
+## Cải thiện hook `useTasks` với Optimistic Updates
+
+```typescript
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import axiosInstance from '../../../api/axiosInstance';
+import { Task, TaskInput } from '../types';
+
+/** Custom hook quản lý tasks với TanStack Query */
+export function useTasks() {
+  const queryClient = useQueryClient();
+
+  const { data: tasks = [], isLoading, error } = useQuery<Task[]>({
+    queryKey: ['tasks'],
+    queryFn: async () => {
+      const response = await axiosInstance.get('/tasks');
+      return response.data;
+    },
+  });
+
+  // Tối ưu hóa: Cập nhật cache sau khi tạo thành công
+  const createTask = useMutation({
+    mutationFn: async (task: TaskInput) => {
+      const response = await axiosInstance.post('/tasks', task);
+      return response.data;
+    },
+    onSuccess: (newTask) => {
+      queryClient.setQueryData<Task[]>(['tasks'], (oldTasks) => {
+        return oldTasks ? [...oldTasks, newTask] : [newTask];
+      });
+    },
+  });
+
+  // Tối ưu hóa: Sử dụng Optimistic Updates để cập nhật UI ngay lập tức
+  const updateTask = useMutation({
+    mutationFn: async ({ id, task }: { id: string; task: Partial<Task> }) => {
+      const response = await axiosInstance.put(`/tasks/${id}`, task);
+      return response.data;
+    },
+    onMutate: async ({ id, task }) => {
+      // 1. Hủy bỏ các refetch đang diễn ra cho query 'tasks'
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+
+      // 2. Lưu lại giá trị cũ của tasks để có thể hoàn tác nếu mutation thất bại
+      const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
+
+      // 3. Cập nhật cache ngay lập tức (Optimistic Update)
+      if (previousTasks) {
+        queryClient.setQueryData<Task[]>(['tasks'],
+          previousTasks.map(oldTask => oldTask.id === id ? { ...oldTask, ...task } : oldTask)
+        );
+      }
+
+      return { previousTasks };
+    },
+    onError: (_error, _variables, context) => {
+      // 4. Hoàn tác lại nếu mutation thất bại
+      if (context?.previousTasks) {
+        queryClient.setQueryData(['tasks'], context.previousTasks);
+      }
+    },
+    onSettled: () => {
+      // 5. Đánh dấu cache là stale và refetch trong nền để đồng bộ
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+
+  // Tối ưu hóa: Sử dụng Optimistic Updates để xóa task
+  const deleteTask = useMutation({
+    mutationFn: async (id: string) => {
+      await axiosInstance.delete(`/tasks/${id}`);
+    },
+    onMutate: async (idToDelete) => {
+      await queryClient.cancelQueries({ queryKey: ['tasks'] });
+      const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
+
+      if (previousTasks) {
+        queryClient.setQueryData<Task[]>(['tasks'],
+          previousTasks.filter(task => task.id !== idToDelete)
+        );
+      }
+
+      return { previousTasks };
+    },
+    onError: (_error, _variables, context) => {
+      if (context?.previousTasks) {
+        queryClient.setQueryData(['tasks'], context.previousTasks);
+      }
+    },
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: ['tasks'] });
+    },
+  });
+
+  return { tasks, isLoading, error, createTask, updateTask, deleteTask };
+}
+```
+
+-----
+
+### Phân tích những thay đổi
+
+1.  **`createTask`**:
+
+      * Thay vì gọi `invalidateQueries`, chúng ta sử dụng **`onSuccess`** để gọi **`queryClient.setQueryData`**.
+      * `setQueryData` cho phép chúng ta trực tiếp thêm task mới vào mảng `tasks` hiện có trong cache, giúp UI cập nhật ngay lập tức mà không cần re-fetch.
+
+2.  **`updateTask` và `deleteTask`**:
+
+      * **`onMutate`**: Đây là bước quan trọng nhất của optimistic updates. Nó chạy ngay trước khi mutation được gửi đi.
+          * **`cancelQueries`**: Ngăn chặn bất kỳ refetch nào đang diễn ra, tránh việc dữ liệu bị "nhảy" không mong muốn.
+          * **`getQueryData`**: Lấy và lưu lại dữ liệu cũ. Đây là "điểm an toàn" để hoàn tác nếu có lỗi.
+          * **`setQueryData`**: Cập nhật cache ngay lập tức với dữ liệu mới (đã xóa hoặc cập nhật).
+      * **`onError`**: Nếu mutation thất bại (ví dụ: mất kết nối, lỗi server), chúng ta sẽ sử dụng dữ liệu đã lưu ở `onMutate` để **hoàn tác** lại giao diện.
+      * **`onSettled`**: Cuối cùng, dù mutation thành công hay thất bại, chúng ta vẫn gọi `invalidateQueries`. Điều này đảm bảo rằng TanStack Query sẽ refetch dữ liệu trong nền để đồng bộ hóa với server. Điều này cực kỳ hữu ích nếu có những thay đổi khác xảy ra trên server trong lúc mutation của bạn đang chạy.
+
 
 **Code Review (Tech Lead)**:
 - TanStack Query quản lý async data hiệu quả, tích hợp tốt với MSW.
@@ -889,11 +1093,13 @@ export const TaskItem = React.memo(({ task, onDelete }: TaskItemProps) => {
 #### 8.11. src/router/routes.ts
 
 ```typescript
-import { createRouter, createRootRoute, createRoute } from '@tanstack/react-router';
-import { Home } from '../pages/Home';
-import { Tasks } from '../pages/Tasks';
-import { TaskDetail } from '../pages/TaskDetail';
+import { createRootRoute, createRoute, createRouter, Outlet } from "@tanstack/react-router";
 import { AuthProvider } from '../contexts/AuthContext';
+
+// Sử dụng lazy() để tải các component một cách bất đồng bộ
+const Home = lazy(() => import("../pages/Home"));
+const Tasks = lazy(() => import("../pages/Tasks"));
+const TaskDetail = lazy(() => import("../pages/TaskDetail"));
 
 const rootRoute = createRootRoute({
   component: () => (
@@ -981,25 +1187,23 @@ export function TaskDetail() {
 #### 8.14. src/components/Button.tsx
 
 ```typescript
-import { ButtonHTMLAttributes } from 'react';
+import type { ButtonHTMLAttributes } from "react";
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'danger';
+    variant?: 'primary' | 'danger' | 'default';
 }
-
-/** Component nút bấm tái sử dụng */
-export function Button({ children, variant = 'primary', ...props }: ButtonProps) {
-  const baseStyles = 'px-4 py-2 rounded font-semibold';
-  const variantStyles =
-    variant === 'danger'
-      ? 'bg-red-500 text-white hover:bg-red-600'
-      : 'bg-blue-500 text-white hover:bg-blue-600';
-
-  return (
-    <button className={`${baseStyles} ${variantStyles}`} {...props}>
-      {children}
-    </button>
-  );
+export function Button({ children, variant = 'default', ...props }: ButtonProps) {
+    const variantStyles =
+        variant === 'default'
+            ? 'bg-gray-200 text-black hover:bg-gray-300'
+            : variant === 'danger'
+                ? 'bg-red-500 text-white hover:bg-red-600'
+                : 'bg-blue-500 text-white hover:bg-blue-600';
+    return (
+        <button className={`px-4 py-2 rounded font-semibold ${variantStyles}`} {...props}>
+            {children}
+        </button>
+    )
 }
 ```
 
@@ -1032,40 +1236,34 @@ export function Input({ className = '', ...props }: InputProps) {
 #### 8.16. src/layouts/MainLayout.tsx
 
 ```typescript
-import { ReactNode } from 'react';
-import { useAuth } from '../contexts/AuthContext';
-import { LoginForm } from '../features/auth/components/LoginForm';
-import { Link, Outlet } from '@tanstack/react-router';
-import { Button } from '../components/Button';
+import { Link, Outlet } from "@tanstack/react-router";
+import type { ReactNode } from "react";
+import { Button } from "../components/Button";
+import { useAuth } from "../contexts/AuthContext";
+import LoginForm from "../features/auth/components/LoginForm";
 
 interface MainLayoutProps {
-  children?: ReactNode;
+    children?: ReactNode;
 }
-
-/** Layout chính của ứng dụng */
-export function MainLayout({ children }: MainLayoutProps) {
-  const { user, logout } = useAuth();
-
-  if (!user) {
-    return <LoginForm />;
-  }
-
-  return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
-      <nav className="bg-white dark:bg-gray-800 p-4 shadow">
-        <div className="container mx-auto flex justify-between">
-          <div className="space-x-4">
-            <Link to="/">Trang chủ</Link>
-            <Link to="/tasks">Tasks</Link>
-          </div>
-          <Button onClick={logout}>Đăng xuất</Button>
+export default function MainLayout({ children }: MainLayoutProps) {
+    const { user, logout } = useAuth();
+    if (!user) return <LoginForm />
+    return (
+        <div className="min-h-screen bg-gray-100 dark:bg-gray-900">
+            <nav className="bg-white dark:bg-gray-800 p-4 shadow">
+                <div className="container mx-auto flex justify-between">
+                    <div className="space-x-4">
+                        <Link to="/">Trang chủ</Link>
+                        <Link to="/tasks">Tasks</Link>
+                    </div>
+                    <Button onClick={logout}>Đăng xuất</Button>
+                </div>
+            </nav>
+            <main className="container mx-auto p-4">
+                {children || <Outlet />}
+            </main>
         </div>
-      </nav>
-      <main className="container mx-auto p-4">
-        {children || <Outlet />}
-      </main>
-    </div>
-  );
+    );
 }
 ```
 

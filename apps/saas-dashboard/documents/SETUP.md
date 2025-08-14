@@ -1,20 +1,17 @@
-Chúng ta sẽ setup project với **monorepo (Nx)**, triển khai các feature chính (multi-tenant dashboard, RBAC, analytics, customization), đảm bảo code modular, type-safe, và enterprise-grade. Tôi sẽ cung cấp code snippets cụ thể và giải thích từng bước.
+# 🚀 Bắt Đầu Coding Dự Án: SaaS Dashboard
+
+Chúng ta sẽ setup dự án với **monorepo (Nx)**, triển khai các tính năng chính (**multi-tenant dashboard**, **RBAC**, **analytics**, **customization**), đảm bảo code **modular**, **type-safe**, và **enterprise-grade**. Tôi sẽ cung cấp các code snippets cụ thể và giải thích từng bước.
 
 ---
 
-## 🚀 Bắt Đầu Coding Dự Án 3: SaaS Dashboard
+## Bước 1: Setup Project với Nx Monorepo + Next.js + TypeScript
 
-### Bước 1: Setup Project với Nx Monorepo + Next.js + TypeScript
+Sử dụng **Nx** để quản lý monorepo, hỗ trợ **Next.js (web)**, **React Native (mobile)**, và **Electron (desktop)**. Tích hợp **Tailwind CSS**, **Storybook**, và **CI/CD** với GitHub Actions.
 
-Sử dụng **Nx** để quản lý monorepo, hỗ trợ **Next.js (web)**, **React Native (mobile)**, và **Electron (desktop)**. Tích hợp Tailwind CSS, Storybook, và CI/CD với GitHub Actions.
+### Code Setup
 
-#### Code Setup
+#### 1. Tạo Monorepo với Nx
 
-<xaiArtifact artifact_id="1cb2e8b1-245c-46c9-91f2-fe0524bf08e7" artifact_version_id="eb2d3798-fcc9-4ad9-b064-e639e8caceb4" title="setup-instructions.md" contentType="text/markdown">
-
-# Hướng Dẫn Setup Dự Án SaaS Dashboard
-
-## 1. Tạo Monorepo với Nx
 Chạy lệnh để tạo Nx workspace:
 
 ```bash
@@ -22,9 +19,10 @@ npx create-nx-workspace@latest saas-dashboard --preset=react --appName=web --sty
 cd saas-dashboard
 ```
 
-Chọn **TypeScript**, **React (Next.js)**, và **CSS** khi được hỏi.
+- Chọn **TypeScript**, **React (Next.js)**, và **CSS** khi được hỏi.
 
-## 2. Cài Đặt Dependencies
+#### 2. Cài Đặt Dependencies
+
 Cài các thư viện cần thiết:
 
 ```bash
@@ -32,7 +30,8 @@ npm install @tanstack/react-query @apollo/client graphql zustand @reduxjs/toolki
 npm install -D @nx/next @nx/react-native @nx/electron @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint-plugin-react eslint-plugin-react-hooks prettier husky tailwindcss postcss autoprefixer
 ```
 
-## 3. Cấu Hình Tailwind CSS
+#### 3. Cấu Hình Tailwind CSS
+
 Khởi tạo Tailwind trong `apps/web`:
 
 ```bash
@@ -55,6 +54,7 @@ const config: Config = {
   },
   plugins: [],
 };
+
 export default config;
 ```
 
@@ -66,12 +66,16 @@ Cập nhật `apps/web/app/globals.css`:
 @tailwind utilities;
 ```
 
-## 4. Cấu Hình ESLint + Prettier
+#### 4. Cấu Hình ESLint + Prettier
+
 Tạo `.eslintrc.json` tại root:
 
 ```json
 {
-  "env": { "browser": true, "es2020": true },
+  "env": {
+    "browser": true,
+    "es2020": true
+  },
   "extends": [
     "eslint:recommended",
     "plugin:react/recommended",
@@ -99,7 +103,8 @@ Tạo `.prettierrc`:
 }
 ```
 
-## 5. Cấu Hình TypeScript
+#### 5. Cấu Hình TypeScript
+
 Cập nhật `tsconfig.json` tại root:
 
 ```json
@@ -128,14 +133,16 @@ Cập nhật `tsconfig.json` tại root:
 }
 ```
 
-## 6. Cấu Hình Storybook
+#### 6. Cấu Hình Storybook
+
 Tạo Storybook trong `packages/ui`:
 
 ```bash
 npx nx g @nx/react:storybook-configuration ui
 ```
 
-## 7. Cấu Hình GitHub Actions
+#### 7. Cấu Hình GitHub Actions
+
 Tạo `.github/workflows/ci.yml`:
 
 ```yaml
@@ -160,7 +167,8 @@ jobs:
       - run: npx nx affected --target=build
 ```
 
-## 8. Khởi Chạy Project
+#### 8. Khởi Chạy Project
+
 Chạy web app:
 
 ```bash
@@ -169,13 +177,11 @@ npx nx serve web
 
 Mở `http://localhost:4200` để kiểm tra.
 
-</xaiArtifact>
-
 ---
 
-### Bước 2: Tạo Cấu Trúc Thư Mục
+## Bước 2: Tạo Cấu Trúc Thư Mục
 
-Dựa trên cấu trúc monorepo đã đề xuất:
+Cấu trúc thư mục dựa trên monorepo đã đề xuất:
 
 ```
 saas-dashboard/
@@ -237,16 +243,17 @@ saas-dashboard/
 
 ---
 
-### Bước 3: Implement Core Features
+## Bước 3: Implement Core Features
 
-Triển khai các feature chính: **Multi-Tenant Dashboard**, **RBAC**, **Analytics**, và **Customization**. Code sẽ tập trung vào **type safety**, **Micro Frontends**, và **observability**.
+Triển khai các tính năng chính: **Multi-Tenant Dashboard**, **RBAC**, **Analytics**, và **Customization**. Code tập trung vào **type safety**, **Micro Frontends**, và **observability**.
 
-#### 3.1. Multi-Tenant Dashboard với Module Federation
+### 3.1. Multi-Tenant Dashboard với Module Federation
 
 Setup Module Federation để tách `dashboard` và `analytics` thành Micro Frontends.
 
-```js
+**File: `apps/web/next.config.js`**
 
+```javascript
 const { withNx } = require('@nx/next/plugins/with-nx');
 const { ModuleFederationPlugin } = require('webpack').container;
 
@@ -264,11 +271,11 @@ module.exports = withNx({
     return config;
   },
 });
-
 ```
 
-```js
+**File: `apps/analytics/next.config.js`**
 
+```javascript
 const { withNx } = require('@nx/next/plugins/with-nx');
 const { ModuleFederationPlugin } = require('webpack').container;
 
@@ -289,8 +296,9 @@ module.exports = withNx({
 });
 ```
 
-```js
+**File: `apps/web/app/dashboard/page.tsx`**
 
+```javascript
 import dynamic from 'next/dynamic';
 import { Suspense } from 'react';
 
@@ -306,22 +314,22 @@ export default function DashboardPage() {
     </div>
   );
 }
-
 ```
 
-**Giải Thích**:
+**Giải thích**:
 - **Module Federation**: Tách `analytics` thành remote module, load dynamic trong `web` app.
-- **Next.js Config**: Config Webpack để expose `Chart` từ `analytics` và consume trong `web`.
-- **Dynamic Import**: Dùng `next/dynamic` để lazy load Micro Frontend, giảm initial load.
+- **Next.js Config**: Cấu hình Webpack để expose `Chart` từ `analytics` và consume trong `web`.
+- **Dynamic Import**: Sử dụng `next/dynamic` để lazy load Micro Frontend, giảm thời gian tải ban đầu.
 
 ---
 
-#### 3.2. RBAC với Middleware và Zustand
+### 3.2. RBAC với Middleware và Zustand
 
 Triển khai Role-Based Access Control, lưu user roles trong Zustand.
 
-```js
+**File: `packages/types/src/index.ts`**
 
+```typescript
 export interface User {
   id: string;
   email: string;
@@ -339,11 +347,11 @@ export interface AnalyticsData {
   metric: string;
   value: number;
 }
-
 ```
 
-```js
+**File: `apps/web/lib/zustand.ts`**
 
+```typescript
 import { create } from 'zustand';
 import { persist } from 'zustand/middleware';
 import { User } from '@types/index';
@@ -362,11 +370,11 @@ export const useAuthStore = create<AuthState>()(
     { name: 'auth-storage' }
   )
 );
-
 ```
 
-```js
+**File: `apps/web/app/middleware.ts`**
 
+```typescript
 import { NextRequest, NextResponse } from 'next/server';
 import { useAuthStore } from '@/lib/zustand';
 
@@ -388,42 +396,42 @@ export function middleware(request: NextRequest) {
 export const config = {
   matcher: ['/dashboard/:path*', '/users/:path*'],
 };
-
 ```
 
-**Giải Thích**:
-- **Zustand**: Quản lý user state với persist middleware để lưu vào local storage.
+**Giải thích**:
+- **Zustand**: Quản lý user state với `persist` middleware để lưu vào local storage.
 - **Middleware**: Kiểm tra quyền truy cập dựa trên role, redirect nếu không đủ quyền.
 - **Types**: Định nghĩa types cho `User`, `Tenant`, `AnalyticsData` để đảm bảo type safety.
 
 ---
 
-#### 3.3. Analytics với WebAssembly và GraphQL
+### 3.3. Analytics với WebAssembly và GraphQL
 
 Tích hợp WebAssembly (Rust) để xử lý analytics và GraphQL cho data fetching.
 
-```js
+**File: `apps/web/lib/wasm.ts`**
 
+```typescript
 import init, { processAnalytics } from './analytics.wasm';
 
 export async function computeAnalytics(data: number[]): Promise<number[]> {
   await init();
   return processAnalytics(data);
 }
-
 ```
 
-```js
+**File: `packages/utils/src/analytics.ts`**
 
+```typescript
 export function normalizeAnalytics(data: number[]): number[] {
   const max = Math.max(...data);
   return data.map((value) => (value / max) * 100);
 }
-
 ```
 
-```js
+**File: `apps/web/app/analytics/charts/page.tsx`**
 
+```typescript
 import { useQuery } from '@tanstack/react-query';
 import { gql } from '@apollo/client';
 import client from '@/lib/apollo';
@@ -474,22 +482,22 @@ export default function Chart() {
     </div>
   );
 }
-
 ```
 
-**Giải Thích**:
+**Giải thích**:
 - **WebAssembly**: Mock WASM module để xử lý analytics data (thực tế cần Rust code và `wasm-bindgen`).
 - **GraphQL Query**: Fetch analytics data với Apollo, normalize và process qua WASM.
-- **Chart**: Dùng `react-chartjs-2` để render biểu đồ, tích hợp với WASM output.
+- **Chart**: Sử dụng `react-chartjs-2` để render biểu đồ, tích hợp với WASM output.
 
 ---
 
-#### 3.4. Customization với Drag-and-Drop Widgets
+### 3.4. Customization với Drag-and-Drop Widgets
 
 Tích hợp drag-and-drop để tùy chỉnh dashboard widgets.
 
-```js
+**File: `apps/web/app/dashboard/widgets/page.tsx`**
 
+```typescript
 import { useState } from 'react';
 import { useDrag, useDrop } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
@@ -558,22 +566,22 @@ function WidgetItem({ widget, index, moveWidget }: WidgetItemProps) {
     </div>
   );
 }
-
 ```
 
-**Giải Thích**:
+**Giải thích**:
 - **Drag-and-Drop**: Sử dụng `react-dnd` để cho phép sắp xếp lại widgets.
 - **Zustand**: Lưu widget configs (mock ở đây, thực tế cần persist vào storage hoặc API).
 - **Type Safety**: Định nghĩa `Widget` interface để đảm bảo type correctness.
 
 ---
 
-### Bước 4: Testing với Playwright và Jest
+## Bước 4: Testing với Playwright và Jest
 
 Tạo E2E test với Playwright cho dashboard flow.
 
-```js
+**File: `apps/web/tests/e2e/dashboard.spec.ts`**
 
+```typescript
 import { test, expect } from '@playwright/test';
 
 test('Dashboard navigation and RBAC', async ({ page }) => {
@@ -583,12 +591,13 @@ test('Dashboard navigation and RBAC', async ({ page }) => {
   await page.goto('/users');
   await expect(page).toHaveURL('/dashboard'); // Redirect if not admin
 });
-
 ```
+
 Tạo unit test cho `Chart`:
 
-```js
+**File: `apps/web/app/analytics/charts/__tests__/Chart.test.tsx`**
 
+```typescript
 import { render, screen } from '@testing-library/react';
 import Chart from '../charts/page';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -608,19 +617,21 @@ describe('Chart', () => {
     expect(chartTitle).toBeInTheDocument();
   });
 });
-
 ```
-**Giải Thích**:
+
+**Giải thích**:
 - **Playwright**: E2E test kiểm tra navigation và RBAC redirect.
 - **Jest**: Unit test cho `Chart`, đảm bảo render đúng với mock data.
 
 ---
 
-### Bước 5: Document và Benchmark
+## Bước 5: Document và Benchmark
 
 Tạo file backlog với user stories:
 
-```
+**File: `docs/backlog.md`**
+
+```markdown
 # Product Backlog: SaaS Dashboard
 
 ## User Stories
@@ -645,25 +656,31 @@ Tạo file backlog với user stories:
 - **Should Have**: Cross-platform (mobile/desktop), i18n.
 - **Could Have**: Export reports (CSV/JSON).
 - **Won’t Have**: Advanced AI analytics (for now).
-
 ```
 
 **Benchmark**:
-- Lighthouse: LCP <1s, CLS=0, INP <100ms.
-- Apollo DevTools: Query latency <100ms.
-- Chrome DevTools: WASM processing <50ms cho 10k records.
+- **Lighthouse**: LCP <1s, CLS=0, INP <100ms.
+- **Apollo DevTools**: Query latency <100ms.
+- **Chrome DevTools**: WASM processing <50ms cho 10k records.
 
 ---
 
-### Bước 6: Tiếp Theo
+## Bước 6: Tiếp Theo
 
 Bạn đã có setup monorepo và code cho **Multi-Tenant Dashboard**, **RBAC**, **Analytics**, và **Customization**. Để tiếp tục:
-1. **Refactor Lần 1**: Tích hợp GraphQL subscriptions, dataloader, và optimize WASM.
-2. **Thêm Features**: Cross-platform (React Native/Electron), i18n, export reports.
-3. **Testing**: Tăng coverage >90% với Jest + Playwright, thêm a11y tests (`axe-core`).
-4. **Deploy**: Setup Docker và deploy lên Vercel (`nx run web:deploy`).
 
-**Hành Động Ngay**:
+1. **Refactor Lần 1**:
+   - Tích hợp GraphQL subscriptions, dataloader, và optimize WASM.
+2. **Thêm Features**:
+   - Cross-platform (React Native/Electron), i18n, export reports.
+3. **Testing**:
+   - Tăng coverage >90% với Jest + Playwright, thêm a11y tests (`axe-core`).
+4. **Deploy**:
+   - Setup Docker và deploy lên Vercel (`nx run web:deploy`).
+
+**Hành động ngay**:
 - Chạy `npx nx serve web` và kiểm tra UI tại `http://localhost:4200`.
 - Test GraphQL API với `/api/graphql` trong GraphiQL.
 - Chạy tests: `npx nx test web` và `npx playwright test`.
+
+---

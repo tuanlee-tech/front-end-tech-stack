@@ -22,59 +22,47 @@ npm install
 ## 2. Cài Đặt Dependencies
 Cài các thư viện cần thiết:
 
+Dưới đây là hai lệnh `npm install` đã được **phân tách rõ ràng** giữa `dependencies` và `devDependencies`:
+
+---
+
+### ✅ Cài đặt **dependencies** (cho production):
+
 ```bash
-npm install @tanstack/react-router @tanstack/router-devtools react-hook-form zod axios msw @testing-library/react @testing-library/jest-dom jest ts-jest @types/jest @axe-core/react tailwindcss postcss autoprefixer
-npm install -D @typescript-eslint/eslint-plugin @typescript-eslint/parser eslint eslint-plugin-react eslint-plugin-react-hooks prettier
+npm install @tanstack/react-router @tanstack/react-router-devtools react-hook-form zod axios tailwindcss @tailwindcss/vite
+```
+
+---
+
+### 🛠️ Cài đặt **devDependencies** (cho development và testing):
+
+```bash
+npm install --save-dev @tanstack/router-plugin msw @axe-core/react @testing-library/react @testing-library/jest-dom @testing-library/user-event prettier vitest jsdom
 ```
 
 ## 3. Cấu Hình Tailwind CSS
-Khởi tạo Tailwind:
+Cập nhật `vite.config.ts`:
 
-```bash
-npx tailwindcss init -p
-```
-
-Cập nhật `tailwind.config.js`:
-
-```javascript
-/** @type {import('tailwindcss').Config} */
-export default {
-  content: ["./index.html", "./src/**/*.{js,ts,jsx,tsx}"],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-}
+```typescript
+import { defineConfig } from 'vite'
+...
+import tailwindcss from '@tailwindcss/vite'
+export default defineConfig({
+  plugins: [
+    ...
+    tailwindcss(),
+  ],
+})
 ```
 
 Thêm Tailwind vào `src/index.css`:
 
 ```css
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 ```
 
-## 4. Cấu Hình ESLint + Prettier
-Tạo `.eslintrc.js`:
+## 4. Cấu Hình ESLint
 
-```javascript
-module.exports = {
-  env: { browser: true, es2020: true },
-  extends: [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react-hooks/recommended",
-  ],
-  parser: "@typescript-eslint/parser",
-  plugins: ["react", "@typescript-eslint"],
-  rules: {
-    "react/prop-types": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-  },
-};
-```
 
 Tạo `.prettierrc`:
 
@@ -116,14 +104,10 @@ Cập nhật `tsconfig.json`:
 ```
 
 ## 6. Cấu Hình Jest
-Tạo `jest.config.js`:
+Tạo `jest.config.ts`:
 
-```javascript
-module.exports = {
-  preset: "ts-jest",
-  testEnvironment: "jsdom",
-  setupFilesAfterEnv: ["<rootDir>/src/tests/setup.ts"],
-};
+```bash
+npm init jest@latest
 ```
 
 Tạo `src/tests/setup.ts`:

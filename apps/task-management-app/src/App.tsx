@@ -1,34 +1,31 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { RouterProvider } from "@tanstack/react-router"
+import { router } from "./router/routes";
+
+/*
+* Set defaultOptions cho queryClient. 
+* Có thể overwrite thông số lại trong các useQuery nếu cần
+*/
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Giảm thời gian lưu cache nếu không cần thiết
+      staleTime: 1000 * 60 * 5, // 5 phút
+      gcTime: 1000 * 60 * 10, // cacheTime ~ gcTime  10 phút
+      // Tắt retry cho các query không quan trọng
+      retry: false,
+      // Tắt refetch khi window focus để giảm tải API
+      refetchOnWindowFocus: false,
+    },
+  },
+});
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
   )
 }
 

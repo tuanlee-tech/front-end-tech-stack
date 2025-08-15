@@ -11,6 +11,7 @@ Task Management App là một ứng dụng web giúp người dùng quản lý c
 - **Thân Thiện Với Người Dùng**: Giao diện responsive, hỗ trợ dark mode, drag-and-drop (tùy chọn).
 
 ### Tính Năng Chính
+
 - **CRUD Tasks**: Tạo, hiển thị, chỉnh sửa, xóa nhiệm vụ với tiêu đề, mô tả, deadline, độ ưu tiên (low/medium/high).
 - **Lọc & Tìm Kiếm**: Lọc theo trạng thái (todo/in-progress/done), ưu tiên, hoặc tìm kiếm bằng từ khóa.
 - **Xác Thực Người Dùng**: Đăng nhập/đăng xuất với local storage (có thể mở rộng sang JWT).
@@ -18,11 +19,13 @@ Task Management App là một ứng dụng web giúp người dùng quản lý c
 - **Xử Lý Dữ Liệu**: Mock API với MSW, mô phỏng API thật với Axios/Fetch.
 
 ### Đối Tượng Mục Tiêu
+
 - **Người Mới Học Frontend**: Nắm vững React, TypeScript, và các công cụ hiện đại.
 - **Lập Trình Viên Trung Cấp**: Rèn luyện kỹ năng refactor, testing, và tối ưu hiệu suất.
 - **Người Muốn Thực Hành**: Áp dụng lý thuyết vào dự án production-ready.
 
 ### Thời Gian Ước Tính
+
 - **Tổng Thời Gian**: 6-8 tuần, chia thành các giai đoạn:
   - Tuần 1-2: Thiết lập và xây dựng tính năng chính (CRUD, auth) với `useState`.
   - Tuần 3-4: Refactor lần 1 (chuyển sang `useReducer`, `useRef`, `useId`).
@@ -99,6 +102,7 @@ Phiên bản đầu tiên sử dụng **useState** và **useEffect** để quả
 - **useMemo**: Tối ưu filtering để tránh recomputation không cần thiết.
 
 **Kế Hoạch Refactor**:
+
 - **Lần 1**: Thay `useState` bằng `useReducer` trong `TaskList` để quản lý state phức tạp, thêm `useRef` để focus input, `useId` cho form fields (accessibility).
 - **Lần 2**: Tích hợp `useTransition` và `useDeferredValue` cho filter/search nặng, `useImperativeHandle` để expose form methods, `useLayoutEffect` cho scroll adjustments, `useDebugValue` để debug hooks.
 - **Mục Tiêu**: Học cách chuyển từ `useState` sang các Hooks nâng cao, đo hiệu suất sau mỗi lần refactor.
@@ -172,6 +176,7 @@ task-management-app/
 ```
 
 **Lý Do Cấu Trúc Scalable**:
+
 - Feature folders đảm bảo tính độc lập, dễ thêm/xóa tính năng.
 - Tests và docs co-located, dễ tìm và maintain.
 - Rõ ràng cho junior devs nhờ tổ chức logic.
@@ -200,7 +205,7 @@ npm install
 #### ✅ Dependencies (Production)
 
 ```bash
-npm install @tanstack/react-router @tanstack/react-router-devtools react-hook-form zod @hookform/resolvers axios tailwindcss @tailwindcss/vite
+npm install @tanstack/react-query @tanstack/react-router @tanstack/react-router-devtools react-hook-form zod @hookform/resolvers axios tailwindcss @tailwindcss/vite
 ```
 
 #### 🛠️ DevDependencies (Development & Testing)
@@ -226,7 +231,7 @@ export default defineConfig({
 Thêm Tailwind vào `src/index.css`:
 
 ```css
-@import "tailwindcss";
+@import 'tailwindcss';
 ```
 
 ### Bước 4: Cấu Hình ESLint & Prettier
@@ -328,7 +333,18 @@ configure({ testIdAttribute: 'data-testid' });
 ```
 
 ### Bước 7: Setup MSW cho Mock API
+
+Tạo file `mockServiceWorker.js`:
+Chạy lệnh khởi tạo MSW
+
+```
+npx msw init public
+```
+
+MSW sẽ tạo file `mockServiceWorker.js` trong thư mục public của dự án.
+
 #### MSW version 1:
+
 Tạo `src/api/mocks/handlers.ts`:
 
 ```typescript
@@ -345,7 +361,11 @@ export const handlers = [
   }),
   rest.post('/api/tasks', async (req, res, ctx) => {
     const task = await req.json();
-    const newTask = { id: String(mockTasks.length + 1), ...task, status: 'todo' };
+    const newTask = {
+      id: String(mockTasks.length + 1),
+      ...task,
+      status: 'todo',
+    };
     mockTasks.push(newTask);
     return res(ctx.json(newTask));
   }),
@@ -373,6 +393,7 @@ import { handlers } from './handlers';
 
 export const worker = setupWorker(...handlers);
 ```
+
 #### MSW version 2:
 
 Tạo `src/api/mocks/handlers.ts`:
@@ -382,61 +403,61 @@ import { http, HttpResponse } from 'msw';
 import type { Task, TaskInput } from '../../features/tasks/types';
 
 let mockTasks: Task[] = [
-    { id: '1', title: 'Sample Task', priority: 'medium', status: 'todo' },
-    { id: '2', title: 'Another Task', priority: 'low', status: 'in-progress' },
+  { id: '1', title: 'Sample Task', priority: 'medium', status: 'todo' },
+  { id: '2', title: 'Another Task', priority: 'low', status: 'in-progress' },
 ];
 
 export const handlers = [
-    // GET: Lấy tất cả các task
-    http.get('/tasks', () => {
-        return HttpResponse.json(mockTasks);
-    }),
+  // GET: Lấy tất cả các task
+  http.get('/tasks', () => {
+    return HttpResponse.json(mockTasks);
+  }),
 
-    // POST: Tạo một task mới
-    http.post('/tasks', async ({ request }) => {
-        const taskInput = (await request.json()) as TaskInput;
-        const newTask: Task = {
-            id: String(mockTasks.length + 1),
-            ...taskInput,
-            status: 'todo', // Status mặc định
-        };
-        mockTasks.push(newTask);
-        return HttpResponse.json(newTask, { status: 201 });
-    }),
+  // POST: Tạo một task mới
+  http.post('/tasks', async ({ request }) => {
+    const taskInput = (await request.json()) as TaskInput;
+    const newTask: Task = {
+      id: String(mockTasks.length + 1),
+      ...taskInput,
+      status: 'todo', // Status mặc định
+    };
+    mockTasks.push(newTask);
+    return HttpResponse.json(newTask, { status: 201 });
+  }),
 
-    // PUT: Cập nhật một task
-    http.put('/tasks/:id', async ({ request, params }) => {
-        const { id } = params;
-        const updates = (await request.json()) as Partial<Task>;
+  // PUT: Cập nhật một task
+  http.put('/tasks/:id', async ({ request, params }) => {
+    const { id } = params;
+    const updates = (await request.json()) as Partial<Task>;
 
-        let updatedTask: Task | undefined;
-        mockTasks = mockTasks.map((task) => {
-            if (task.id === id) {
-                updatedTask = { ...task, ...updates };
-                return updatedTask;
-            }
-            return task;
-        });
+    let updatedTask: Task | undefined;
+    mockTasks = mockTasks.map((task) => {
+      if (task.id === id) {
+        updatedTask = { ...task, ...updates };
+        return updatedTask;
+      }
+      return task;
+    });
 
-        if (!updatedTask) {
-            return new HttpResponse('Task not found', { status: 404 });
-        }
+    if (!updatedTask) {
+      return new HttpResponse('Task not found', { status: 404 });
+    }
 
-        return HttpResponse.json(updatedTask);
-    }),
+    return HttpResponse.json(updatedTask);
+  }),
 
-    // DELETE: Xóa một task
-    http.delete('/tasks/:id', ({ params }) => {
-        const { id } = params;
-        const initialLength = mockTasks.length;
-        mockTasks = mockTasks.filter((task) => task.id !== id);
+  // DELETE: Xóa một task
+  http.delete('/tasks/:id', ({ params }) => {
+    const { id } = params;
+    const initialLength = mockTasks.length;
+    mockTasks = mockTasks.filter((task) => task.id !== id);
 
-        if (mockTasks.length === initialLength) {
-            return new HttpResponse('Task not found', { status: 404 });
-        }
+    if (mockTasks.length === initialLength) {
+      return new HttpResponse('Task not found', { status: 404 });
+    }
 
-        return new HttpResponse(null, { status: 204 });
-    }),
+    return new HttpResponse(null, { status: 204 });
+  }),
 ];
 ```
 
@@ -452,38 +473,81 @@ import { handlers } from './handlers';
 export const worker = setupWorker(...handlers);
 ```
 
+Tạo `src/api/mocks/setup.ts`:
+
+```typescript
+let isMSWInitialized = false;
+
+export async function setupMSW() {
+  if (isMSWInitialized || process.env.NODE_ENV !== 'development') {
+    return;
+  }
+  const { worker } = await import('./browser');
+  await worker.start();
+  isMSWInitialized = true;
+}
+
+// Khởi động ngay khi module được tải
+setupMSW();
+```
+
+Cập nhật `src/App.tsx`:
+
+```typescript
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+import { RouterProvider } from "@tanstack/react-router"
+import { router } from "./router/routes";
+
+/*
+* Set defaultOptions cho queryClient.
+* Có thể overwrite thông số lại trong các useQuery nếu cần
+*/
+export const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      // Giảm thời gian lưu cache nếu không cần thiết
+      staleTime: 1000 * 60 * 5, // 5 phút
+      gcTime: 1000 * 60 * 10, // cacheTime ~ gcTime  10 phút
+      // Tắt retry cho các query không quan trọng
+      retry: false,
+      // Tắt refetch khi window focus để giảm tải API
+      refetchOnWindowFocus: false,
+    },
+  },
+});
+
+function App() {
+
+  return (
+    <QueryClientProvider client={queryClient}>
+      <RouterProvider router={router} />
+    </QueryClientProvider>
+  )
+}
+
+export default App
+
+```
+
 Cập nhật `src/main.tsx`:
 
 ```typescript
+// File: src/main.tsx
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import { RouterProvider } from '@tanstack/react-router';
-import { router } from './router/routes';
+import App from './App';
+import './api/mocks/setup'; // Import để khởi động MSW
 
-/**
- * Hàm khởi động MSW worker một cách bất đồng bộ.
- * Chỉ chạy trong môi trường development.
- */
-async function enableMocking() {
-  if (process.env.NODE_ENV !== 'development') {
-    return;
-  }
-
-  // Sử dụng dynamic import để tải worker từ MSW
-  const { worker } = await import('./api/mocks/browser');
-  
-  // worker.start() trả về một Promise. Chúng ta đợi Promise này hoàn thành.
-  return worker.start();
-}
-
-enableMocking().then(() => {
-  ReactDOM.createRoot(document.getElementById('root')!).render(
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  process.env.NODE_ENV === 'development' ? (
     <React.StrictMode>
-      <RouterProvider router={router} />
+      <App />
     </React.StrictMode>
-  );
-});
+  ) : (
+    <App />
+  )
+);
 ```
 
 ### Bước 8: Code Mẫu (Phiên Bản Đầu Tiên với useState)
@@ -513,6 +577,7 @@ export interface TaskInput {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Types rõ ràng, type-safe, hỗ trợ cả Task và TaskInput.
 - Cải thiện: Thêm metadata (ví dụ: `createdAt`, `updatedAt`) trong lần refactor.
 
@@ -568,6 +633,7 @@ export function useAuth() {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Sử dụng `useState` (thông qua `useLocalStorage`) để quản lý user state, đơn giản và dễ hiểu.
 - Cải thiện: Trong lần refactor, thêm error handling cho login và tích hợp JWT.
 
@@ -577,7 +643,10 @@ export function useAuth() {
 import { useState } from 'react';
 
 /** Custom hook để lưu trữ và đồng bộ dữ liệu với localStorage */
-export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T) => void] {
+export function useLocalStorage<T>(
+  key: string,
+  initialValue: T
+): [T, (value: T) => void] {
   const [storedValue, setStoredValue] = useState<T>(() => {
     try {
       const item = window.localStorage.getItem(key);
@@ -602,6 +671,7 @@ export function useLocalStorage<T>(key: string, initialValue: T): [T, (value: T)
 ```
 
 **Code Review (Tech Lead)**:
+
 - Hook type-safe với generics, phù hợp cho cả user và các dữ liệu khác.
 - Cải thiện: Thêm type checking nghiêm ngặt hơn và error boundary trong lần refactor.
 
@@ -660,6 +730,7 @@ export function LoginForm() {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Form sử dụng React Hook Form + Zod, đảm bảo validation và accessibility.
 - Cải thiện: Thêm `useRef` để focus input trong lần refactor, tích hợp `useId` cho ARIA labels.
 
@@ -671,11 +742,17 @@ import axios from 'axios';
 /** Axios instance với cấu hình cơ bản */
 const axiosInstance = axios.create({
   baseURL: '/api',
+  headers: { 'Content-Type': 'application/json' },
   timeout: 5000,
 });
 
 axiosInstance.interceptors.request.use((config) => {
-  // Thêm auth headers sau này
+  /*
+   * Thêm auth headers sau này
+   * const token = localStorage.getItem("token");
+   * if(token) config.headers.Authorization = `Bearer ${token}`;
+   *
+   */
   return config;
 });
 
@@ -683,6 +760,7 @@ export default axiosInstance;
 ```
 
 **Code Review (Tech Lead)**:
+
 - Cấu hình Axios đơn giản, sẵn sàng mở rộng với interceptors.
 - Cải thiện: Thêm error handling và retry logic trong lần refactor.
 
@@ -697,7 +775,11 @@ import { Task, TaskInput } from '../types';
 export function useTasks() {
   const queryClient = useQueryClient();
 
-  const { data: tasks = [], isLoading, error } = useQuery<Task[]>({
+  const {
+    data: tasks = [],
+    isLoading,
+    error,
+  } = useQuery<Task[]>({
     queryKey: ['tasks'],
     queryFn: async () => {
       const response = await axiosInstance.get('/tasks');
@@ -716,7 +798,13 @@ export function useTasks() {
   });
 
   const updateTask = useMutation({
-    mutationFn: async ({ id, task }: { id: string; task: Partial<TaskInput> }) => {
+    mutationFn: async ({
+      id,
+      task,
+    }: {
+      id: string;
+      task: Partial<TaskInput>;
+    }) => {
       const response = await axiosInstance.put(`/tasks/${id}`, task);
       return response.data;
     },
@@ -737,6 +825,7 @@ export function useTasks() {
   return { tasks, isLoading, error, createTask, updateTask, deleteTask };
 }
 ```
+
 ## Cải thiện hook `useTasks` với Optimistic Updates
 
 ```typescript
@@ -748,7 +837,11 @@ import { Task, TaskInput } from '../types';
 export function useTasks() {
   const queryClient = useQueryClient();
 
-  const { data: tasks = [], isLoading, error } = useQuery<Task[]>({
+  const {
+    data: tasks = [],
+    isLoading,
+    error,
+  } = useQuery<Task[]>({
     queryKey: ['tasks'],
     queryFn: async () => {
       const response = await axiosInstance.get('/tasks');
@@ -784,8 +877,11 @@ export function useTasks() {
 
       // 3. Cập nhật cache ngay lập tức (Optimistic Update)
       if (previousTasks) {
-        queryClient.setQueryData<Task[]>(['tasks'],
-          previousTasks.map(oldTask => oldTask.id === id ? { ...oldTask, ...task } : oldTask)
+        queryClient.setQueryData<Task[]>(
+          ['tasks'],
+          previousTasks.map((oldTask) =>
+            oldTask.id === id ? { ...oldTask, ...task } : oldTask
+          )
         );
       }
 
@@ -813,8 +909,9 @@ export function useTasks() {
       const previousTasks = queryClient.getQueryData<Task[]>(['tasks']);
 
       if (previousTasks) {
-        queryClient.setQueryData<Task[]>(['tasks'],
-          previousTasks.filter(task => task.id !== idToDelete)
+        queryClient.setQueryData<Task[]>(
+          ['tasks'],
+          previousTasks.filter((task) => task.id !== idToDelete)
         );
       }
 
@@ -834,26 +931,24 @@ export function useTasks() {
 }
 ```
 
------
+---
 
 ### Phân tích những thay đổi
 
 1.  **`createTask`**:
-
-      * Thay vì gọi `invalidateQueries`, chúng ta sử dụng **`onSuccess`** để gọi **`queryClient.setQueryData`**.
-      * `setQueryData` cho phép chúng ta trực tiếp thêm task mới vào mảng `tasks` hiện có trong cache, giúp UI cập nhật ngay lập tức mà không cần re-fetch.
+    - Thay vì gọi `invalidateQueries`, chúng ta sử dụng **`onSuccess`** để gọi **`queryClient.setQueryData`**.
+    - `setQueryData` cho phép chúng ta trực tiếp thêm task mới vào mảng `tasks` hiện có trong cache, giúp UI cập nhật ngay lập tức mà không cần re-fetch.
 
 2.  **`updateTask` và `deleteTask`**:
-
-      * **`onMutate`**: Đây là bước quan trọng nhất của optimistic updates. Nó chạy ngay trước khi mutation được gửi đi.
-          * **`cancelQueries`**: Ngăn chặn bất kỳ refetch nào đang diễn ra, tránh việc dữ liệu bị "nhảy" không mong muốn.
-          * **`getQueryData`**: Lấy và lưu lại dữ liệu cũ. Đây là "điểm an toàn" để hoàn tác nếu có lỗi.
-          * **`setQueryData`**: Cập nhật cache ngay lập tức với dữ liệu mới (đã xóa hoặc cập nhật).
-      * **`onError`**: Nếu mutation thất bại (ví dụ: mất kết nối, lỗi server), chúng ta sẽ sử dụng dữ liệu đã lưu ở `onMutate` để **hoàn tác** lại giao diện.
-      * **`onSettled`**: Cuối cùng, dù mutation thành công hay thất bại, chúng ta vẫn gọi `invalidateQueries`. Điều này đảm bảo rằng TanStack Query sẽ refetch dữ liệu trong nền để đồng bộ hóa với server. Điều này cực kỳ hữu ích nếu có những thay đổi khác xảy ra trên server trong lúc mutation của bạn đang chạy.
-
+    - **`onMutate`**: Đây là bước quan trọng nhất của optimistic updates. Nó chạy ngay trước khi mutation được gửi đi.
+      - **`cancelQueries`**: Ngăn chặn bất kỳ refetch nào đang diễn ra, tránh việc dữ liệu bị "nhảy" không mong muốn.
+      - **`getQueryData`**: Lấy và lưu lại dữ liệu cũ. Đây là "điểm an toàn" để hoàn tác nếu có lỗi.
+      - **`setQueryData`**: Cập nhật cache ngay lập tức với dữ liệu mới (đã xóa hoặc cập nhật).
+    - **`onError`**: Nếu mutation thất bại (ví dụ: mất kết nối, lỗi server), chúng ta sẽ sử dụng dữ liệu đã lưu ở `onMutate` để **hoàn tác** lại giao diện.
+    - **`onSettled`**: Cuối cùng, dù mutation thành công hay thất bại, chúng ta vẫn gọi `invalidateQueries`. Điều này đảm bảo rằng TanStack Query sẽ refetch dữ liệu trong nền để đồng bộ hóa với server. Điều này cực kỳ hữu ích nếu có những thay đổi khác xảy ra trên server trong lúc mutation của bạn đang chạy.
 
 **Code Review (Tech Lead)**:
+
 - TanStack Query quản lý async data hiệu quả, tích hợp tốt với MSW.
 - Cải thiện: Thêm `useDebugValue` trong lần refactor để debug số tasks.
 
@@ -941,6 +1036,7 @@ export function TaskForm({ task, onSubmitSuccess }: TaskFormProps) {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Form đơn giản, sử dụng React Hook Form + Zod, hỗ trợ create/update.
 - Cải thiện: Thêm `useRef` để focus input, `useImperativeHandle` để expose resetForm trong lần refactor.
 
@@ -1008,6 +1104,7 @@ export function FilterSearch({ tasks, onFilter }: FilterSearchProps) {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Sử dụng `useState` và `useMemo` để filter tasks, hiệu quả và đơn giản.
 - Cải thiện: Thêm `useTransition` và `useDeferredValue` trong lần refactor để xử lý danh sách lớn.
 
@@ -1048,6 +1145,7 @@ export function TaskList() {
 ```
 
 **Code Review (Tech Lead)**:
+
 - `useState` quản lý filtered tasks, phù hợp cho phiên bản đầu tiên.
 - Cải thiện: Thay bằng `useReducer` trong lần refactor để quản lý state phức tạp.
 
@@ -1087,6 +1185,7 @@ export const TaskItem = React.memo(({ task, onDelete }: TaskItemProps) => {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Sử dụng `React.memo` để tối ưu re-renders.
 - Cải thiện: Thêm animations với Framer Motion trong lần refactor.
 
@@ -1133,6 +1232,7 @@ export const router = createRouter({ routeTree });
 ```
 
 **Code Review (Tech Lead)**:
+
 - TanStack Router cung cấp type-safe routing, dễ mở rộng.
 - Cải thiện: Thêm lazy loading routes trong lần refactor.
 
@@ -1153,6 +1253,7 @@ export function Tasks() {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Trang đơn giản, tích hợp tốt với layout và TaskList.
 - Cải thiện: Thêm loading skeleton trong lần refactor.
 
@@ -1181,6 +1282,7 @@ export function TaskDetail() {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Trang chi tiết đơn giản, tích hợp tốt với TaskForm.
 - Cải thiện: Thêm error boundary và loading state trong lần refactor.
 
@@ -1208,6 +1310,7 @@ export function Button({ children, variant = 'default', ...props }: ButtonProps)
 ```
 
 **Code Review (Tech Lead)**:
+
 - Button tái sử dụng, hỗ trợ variants.
 - Cải thiện: Thêm ARIA roles và loading state trong lần refactor.
 
@@ -1230,6 +1333,7 @@ export function Input({ className = '', ...props }: InputProps) {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Input tái sử dụng, tích hợp tốt với Tailwind.
 - Cải thiện: Thêm `useRef` và `useId` cho accessibility trong lần refactor.
 
@@ -1268,6 +1372,7 @@ export default function MainLayout({ children }: MainLayoutProps) {
 ```
 
 **Code Review (Tech Lead)**:
+
 - Layout cung cấp auth guard và navbar.
 - Cải thiện: Thêm dark mode toggle và responsive navbar trong lần refactor.
 
@@ -1279,6 +1384,7 @@ Tạo `docs/backlog.md`:
 # Product Backlog: Task Management App
 
 ## User Stories
+
 - **As a user**, I want to **create a task** with title, description, deadline, and priority, so that I can **organize my work**.
   - **Acceptance Criteria**:
     - Form includes title (required), description (optional), deadline (optional), priority (low/medium/high).
@@ -1291,6 +1397,7 @@ Tạo `docs/backlog.md`:
     - Filter applies instantly, latency <500ms.
 
 ## Prioritization (MoSCoW)
+
 - **Must Have**: CRUD tasks, filter/search, basic auth.
 - **Should Have**: Responsive UI, dark mode.
 - **Could Have**: Drag-and-drop sorting.
@@ -1298,6 +1405,7 @@ Tạo `docs/backlog.md`:
 ```
 
 **Benchmark**:
+
 - **Re-renders**: Dùng React Profiler, mục tiêu <5 lần mỗi tương tác.
 - **Latency**: Đo API calls với Chrome Network tab (<500ms).
 - **Accessibility**: Chạy Lighthouse, đạt WCAG 2.1 Level AA.
@@ -1306,6 +1414,7 @@ Tạo `docs/backlog.md`:
 ### Bước 10: Kế Hoạch Refactor
 
 #### Refactor Lần 1: Tích hợp useReducer, useRef, useId
+
 - **Mục Tiêu**: Chuyển từ `useState` sang `useReducer` để quản lý state phức tạp, thêm `useRef` để focus input, và `useId` cho accessibility.
 - **Thay Đổi**:
   - Trong `TaskList.tsx`, thay `useState` bằng `useReducer` với actions (`SET_TASKS`, `ADD_TASK`, `UPDATE_TASK`, `DELETE_TASK`).
@@ -1470,6 +1579,7 @@ export default TaskForm;
 ```
 
 #### Refactor Lần 2: Tích hợp useTransition, useDeferredValue, useLayoutEffect, useDebugValue
+
 - **Mục Tiêu**: Tối ưu hiệu suất với concurrent rendering, cải thiện UX và developer experience.
 - **Thay Đổi**:
   - Trong `FilterSearch.tsx`, thêm `useTransition` và `useDeferredValue` để xử lý filter/search nặng.
@@ -1547,7 +1657,12 @@ export function FilterSearch({ tasks, onFilter }: FilterSearchProps) {
 - **Code Mẫu (useTasks.ts)**:
 
 ```typescript
-import { useQuery, useMutation, useQueryClient, useDebugValue } from '@tanstack/react-query';
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  useDebugValue,
+} from '@tanstack/react-query';
 import axiosInstance from '../../../api/axiosInstance';
 import { Task, TaskInput } from '../types';
 
@@ -1555,7 +1670,11 @@ import { Task, TaskInput } from '../types';
 export function useTasks() {
   const queryClient = useQueryClient();
 
-  const { data: tasks = [], isLoading, error } = useQuery<Task[]>({
+  const {
+    data: tasks = [],
+    isLoading,
+    error,
+  } = useQuery<Task[]>({
     queryKey: ['tasks'],
     queryFn: async () => {
       const response = await axiosInstance.get('/tasks');
@@ -1578,7 +1697,13 @@ export function useTasks() {
   });
 
   const updateTask = useMutation({
-    mutationFn: async ({ id, task }: { id: string; task: Partial<TaskInput> }) => {
+    mutationFn: async ({
+      id,
+      task,
+    }: {
+      id: string;
+      task: Partial<TaskInput>;
+    }) => {
       const response = await axiosInstance.put(`/tasks/${id}`, task);
       return response.data;
     },
@@ -1641,6 +1766,7 @@ Dự án này bao quát ~90% React core (hooks, patterns, production). Tuy nhiê
    - **Tài Liệu**: [react-i18next Docs](https://react.i18next.com).
 
 **Thực Hành Đề Xuất**:
+
 - Thêm tính năng (dark mode, animations) vào dự án.
 - Refactor 2 lần, mỗi lần tích hợp 2-3 Hooks/main nâng cao.
 - Benchmark hiệu suất sau mỗi lần refactor (re-renders <3, page load <2s).

@@ -1,5 +1,7 @@
+import MainLayout from "../layouts/MainLayout";
+
 export default function TaskDetail() {
     return (
-        <h1>TaskDetail Page</h1>
+        <MainLayout>TaskDetail Page</MainLayout>
     );
 }

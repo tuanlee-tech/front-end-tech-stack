@@ -1,5 +1,10 @@
+import { TaskList } from "../features/tasks/components/TaskList";
+import MainLayout from "../layouts/MainLayout";
+
 export default function Tasks() {
     return (
-        <h1>Tasks Page</h1>
+        <MainLayout>
+            <TaskList />
+        </MainLayout>
     );
 }

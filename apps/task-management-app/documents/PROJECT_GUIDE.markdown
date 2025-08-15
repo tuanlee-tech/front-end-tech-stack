@@ -399,6 +399,7 @@ export const worker = setupWorker(...handlers);
 Tạo `src/api/mocks/handlers.ts`:
 
 ```typescript
+//src/api/mocks/handlers.ts
 import { http, HttpResponse } from 'msw';
 import type { Task, TaskInput } from '../../features/tasks/types';
 
@@ -409,12 +410,13 @@ let mockTasks: Task[] = [
 
 export const handlers = [
   // GET: Lấy tất cả các task
-  http.get('/tasks', () => {
+  http.get('/api/tasks', () => {
+    console.log('MSW: Intercepted GET /api/tasks');
     return HttpResponse.json(mockTasks);
   }),
 
   // POST: Tạo một task mới
-  http.post('/tasks', async ({ request }) => {
+  http.post('/api/tasks', async ({ request }) => {
     const taskInput = (await request.json()) as TaskInput;
     const newTask: Task = {
       id: String(mockTasks.length + 1),
@@ -426,7 +428,7 @@ export const handlers = [
   }),
 
   // PUT: Cập nhật một task
-  http.put('/tasks/:id', async ({ request, params }) => {
+  http.put('/api/tasks/:id', async ({ request, params }) => {
     const { id } = params;
     const updates = (await request.json()) as Partial<Task>;
 
@@ -447,7 +449,7 @@ export const handlers = [
   }),
 
   // DELETE: Xóa một task
-  http.delete('/tasks/:id', ({ params }) => {
+  http.delete('/api/tasks/:id', ({ params }) => {
     const { id } = params;
     const initialLength = mockTasks.length;
     mockTasks = mockTasks.filter((task) => task.id !== id);
